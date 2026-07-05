@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Neutrals — clean off-white + light slate */
+    --background: 210 40% 99%;      /* near-white */
+    --foreground: 222 47% 11%;      /* deep navy #0F172A */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 20% 40%;
+
+    /* Primary — deep navy */
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Secondary — soft slate surface */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 15%;
+
+    /* Accent — calm teal */
+    --accent: 174 84% 32%;          /* #0D9488 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 24% 90%;
+    --input: 214 24% 90%;
+    --ring: 174 84% 32%;
+
+    --radius: 0.9rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: hsl(174 84% 32% / 0.18);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .bg-grid {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      hsl(215 20% 65% / 0.12) 1px,
+      transparent 0
+    );
+    background-size: 28px 28px;
+  }
+  .gradient-relief {
+    background:
+      radial-gradient(60% 60% at 15% 0%, rgba(13, 148, 136, 0.10) 0%, transparent 60%),
+      radial-gradient(50% 50% at 95% 10%, rgba(217, 164, 65, 0.10) 0%, transparent 55%);
+  }
+}
