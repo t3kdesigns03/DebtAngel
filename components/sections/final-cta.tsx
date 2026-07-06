@@ -33,10 +33,10 @@ export function FinalCta() {
         <div className="relative flex min-h-[560px] flex-col items-center justify-end overflow-hidden rounded-[2.5rem] border border-white/10 px-6 pb-12 text-center shadow-lift sm:min-h-[640px] sm:px-10 sm:pb-16">
           {/* Symbolic hero image — winged $ emblem, gentle fade + scale settle on scroll */}
           <motion.img
-            src="/images/hero/hero-symbolic.jpg"
+            src="/images/hero/hero-abstract.jpg"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 -z-20 h-full w-full object-cover object-top"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
             {...imgMotion}
           />
           {/* Dark scrim: light at top (let the emblem glow), heavy at bottom for text */}

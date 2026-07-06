@@ -24,7 +24,8 @@ export function HowItWorks() {
         <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {steps.map((step, i) => (
             <Reveal key={step.n} delay={i * 0.05}>
-              <div className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-card p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-gold sm:p-7">
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-gold sm:p-7">
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <div className="flex items-center justify-between">
                   <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/10 text-gold ring-1 ring-gold/20">
                     <Icon name={step.icon} className="h-5 w-5" />

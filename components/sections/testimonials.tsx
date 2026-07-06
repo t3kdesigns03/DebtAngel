@@ -27,7 +27,7 @@ export function Testimonials() {
         <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
           {testimonials.map((t, i) => (
             <Reveal key={t.name} delay={(i % 3) * 0.05}>
-              <figure className="break-inside-avoid rounded-3xl border border-white/10 bg-card p-6 shadow-soft transition-all hover:border-gold/25 hover:shadow-lift">
+              <figure className="break-inside-avoid rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-gold">
                 <Quote className="h-6 w-6 text-gold" />
                 <blockquote className="mt-3 text-[15px] leading-relaxed text-foreground">
                   {t.quote}

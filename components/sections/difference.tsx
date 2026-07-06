@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { pillars, differences, noList } from "@/lib/site";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Icon } from "@/components/shared/icon";
@@ -6,8 +6,11 @@ import { Reveal } from "@/components/reveal";
 
 export function Difference() {
   return (
-    <section id="difference" className="scroll-mt-24 bg-ink text-cloud">
-      <div className="container section">
+    <section id="difference" className="relative scroll-mt-24 overflow-hidden bg-ink text-cloud">
+      {/* subtle gold ambience for separation from adjacent sections */}
+      <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[60rem] -translate-x-1/2 rounded-full bg-gold/5 blur-[120px]" />
+
+      <div className="container section relative">
         <SectionHeading
           tone="dark"
           eyebrow="The Debt Angel difference"
@@ -22,11 +25,12 @@ export function Difference() {
         />
 
         {/* Three pillars */}
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
           {pillars.map((p, i) => (
             <Reveal key={p.key} delay={i * 0.06}>
-              <div className="flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-7">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-sheen text-ink">
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-gold">
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-sheen text-ink shadow-gold">
                   <Icon name={p.icon} className="h-5 w-5" />
                 </span>
                 <h3 className="mt-5 font-display text-2xl font-semibold text-gold">
@@ -41,22 +45,28 @@ export function Difference() {
           ))}
         </div>
 
-        {/* The "No" list */}
+        {/* The "No" list — the reassurance grid */}
         <Reveal className="mt-6">
-          <div className="rounded-3xl border border-money/25 bg-money/[0.06] p-6 sm:p-8">
-            <h3 className="font-display text-xl font-semibold text-cloud">
-              What you&rsquo;ll never face with Debt Angel
-            </h3>
-            <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="rounded-3xl border border-money/20 bg-gradient-to-br from-money/[0.08] via-white/[0.02] to-transparent p-6 sm:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-money/15 text-money ring-1 ring-money/30">
+                <ShieldCheck className="h-5 w-5" />
+              </span>
+              <h3 className="font-display text-xl font-semibold text-cloud sm:text-2xl">
+                What you&rsquo;ll never face with Debt Angel
+              </h3>
+            </div>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
               {noList.map((n) => (
-                <li key={n.label} className="rounded-2xl bg-white/[0.04] p-4">
-                  <span className="flex items-center gap-2 font-semibold text-cloud">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-destructive/20 text-destructive">
-                      <X className="h-3 w-3" strokeWidth={3} />
-                    </span>
-                    {n.label}
+                <li
+                  key={n.label}
+                  className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-money/40 hover:bg-white/[0.05]"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-money/15 text-money ring-1 ring-money/25 transition-transform duration-300 group-hover:scale-105">
+                    <ShieldCheck className="h-5 w-5" strokeWidth={2.2} />
                   </span>
-                  <span className="mt-1.5 block text-xs text-cloud/60">{n.sub}</span>
+                  <p className="mt-4 font-semibold text-cloud">{n.label}</p>
+                  <p className="mt-1 text-sm leading-snug text-cloud/60">{n.sub}</p>
                 </li>
               ))}
             </ul>
@@ -64,11 +74,11 @@ export function Difference() {
         </Reveal>
 
         {/* Differentiators grid */}
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {differences.map((d, i) => (
             <Reveal key={d.title} delay={i * 0.04}>
-              <div className="flex h-full gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/5 text-gold">
+              <div className="group flex h-full gap-4 rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-gold">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gold/10 text-gold ring-1 ring-gold/20 transition-colors duration-300 group-hover:bg-gold/15">
                   <Icon name={d.icon} className="h-5 w-5" />
                 </span>
                 <div>
