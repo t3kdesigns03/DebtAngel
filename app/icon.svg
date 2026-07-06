@@ -1,14 +1,12 @@
 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F3E7BE"/>
-      <stop offset="45%" stop-color="#D4AF37"/>
+      <stop offset="0%" stop-color="#F7EDCC"/>
+      <stop offset="45%" stop-color="#E7C64E"/>
       <stop offset="100%" stop-color="#C9A227"/>
     </linearGradient>
   </defs>
   <rect width="32" height="32" rx="7" fill="#0A0A0A"/>
-  <circle cx="16" cy="16" r="10.5" fill="none" stroke="#0D8A5C" stroke-width="1.4" opacity="0.5"/>
-  <path d="M15.4 20 C10.8 14 7 12.5 2.5 12.5 C6 14 6.6 15.6 5.6 17.5 C8.4 16.5 8.9 18 8.9 20 C11.4 18.2 13.4 19 15.4 21.5 Z" fill="url(#g)"/>
-  <path d="M16.6 20 C21.2 14 25 12.5 29.5 12.5 C26 14 25.4 15.6 26.4 17.5 C23.6 16.5 23.1 18 23.1 20 C20.6 18.2 18.6 19 16.6 21.5 Z" fill="url(#g)"/>
-  <text x="16" y="16.5" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-weight="700" font-size="15" fill="url(#g)">$</text>
+  <rect x="1" y="1" width="30" height="30" rx="6" fill="none" stroke="url(#g)" stroke-width="1" opacity="0.4"/>
+  <text x="16" y="17" text-anchor="middle" dominant-baseline="central" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="22" fill="url(#g)">$</text>
 </svg>

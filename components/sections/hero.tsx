@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Play, ShieldCheck, Star, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { LogoMark } from "@/components/brand/logo";
+import { Wordmark } from "@/components/brand/logo";
 import { proofPoints, site } from "@/lib/site";
 import { currency, monthsToLabel } from "@/lib/utils";
 
@@ -107,13 +107,7 @@ function HeroVisual() {
         <div className="absolute inset-0 grid-noise opacity-70" aria-hidden />
         <div className="relative">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <LogoMark className="h-10 w-auto" />
-              <span className="font-display text-lg font-bold">
-                <span className="text-gradient-gold">Debt</span>
-                <span className="text-foreground">Angel</span>
-              </span>
-            </div>
+            <Wordmark size="sm" />
             <span className="rounded-full border border-money/30 bg-money/10 px-3 py-1 text-xs font-semibold text-money">
               Live plan
             </span>

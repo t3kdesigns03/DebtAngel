@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioCard } from "@/components/ui/radio-group";
-import { LogoMark, Wordmark } from "@/components/brand/logo";
+import { Wordmark } from "@/components/brand/logo";
 import { TradelineView } from "@/components/shared/tradeline-view";
 import { ComparisonView } from "@/components/shared/comparison-view";
 import { TradelineForm, AddAccountButton } from "@/components/application/tradeline-form";
@@ -666,7 +666,7 @@ function ThankYou({ firstName }: { firstName?: string }) {
           details and finalize your path to Debt Zero — Smarter, Faster, Cheaper.
         </p>
         <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <LogoMark className="h-7 w-auto" />
+          <ShieldCheck className="h-5 w-5 text-gold" />
           <span>No upfront fees · No prepayment penalty · You stay in control</span>
         </div>
         <div className="mt-8">

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Phone, Mail } from "lucide-react";
-import { Wordmark } from "@/components/brand/logo";
 import { site, disclaimers } from "@/lib/site";
 
 export function SiteFooter() {
@@ -9,7 +8,21 @@ export function SiteFooter() {
       <div className="container py-14">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
-            <Wordmark size="lg" />
+            <div
+              className="group relative w-full max-w-[220px] cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-lift transition-all duration-500 ease-out hover:-translate-y-1 hover:border-gold/50 hover:shadow-gold"
+              style={{ aspectRatio: "3 / 4" }}
+              role="img"
+              aria-label="Debt Angel logo"
+            >
+              <div
+                className="h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                style={{ backgroundImage: "url('/images/brand/debtangel-logo.jpg')" }}
+              />
+              {/* Gold sheen on hover */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gold/15 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              {/* Sweeping shine */}
+              <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 ease-out group-hover:translate-x-full" />
+            </div>
             <p className="mt-5 max-w-xs text-sm text-cloud/70">
               {site.motto}
             </p>
