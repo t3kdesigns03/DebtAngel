@@ -1,32 +1,24 @@
-import { Lock, HandHeart, FileCheck2, PhoneCall } from "lucide-react";
-import { Reveal } from "@/components/reveal";
-
-const items = [
-  { icon: Lock, label: "No upfront fees", sub: "Pay only when a debt settles" },
-  { icon: FileCheck2, label: "Everything in writing", sub: "Costs & risks disclosed first" },
-  { icon: HandHeart, label: "One dedicated advisor", sub: "The same person, start to finish" },
-  { icon: PhoneCall, label: "Human, not a queue", sub: "Real conversations, no scripts" },
-];
+import { Check } from "lucide-react";
+import { trustBar } from "@/lib/site";
 
 export function TrustBar() {
   return (
-    <section className="border-y border-border bg-white">
-      <div className="container py-8">
-        <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-          {items.map((item, i) => (
-            <Reveal key={item.label} delay={i * 0.06}>
-              <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
-                  <item.icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-navy">{item.label}</p>
-                  <p className="text-xs text-slate-500">{item.sub}</p>
-                </div>
-              </div>
-            </Reveal>
+    <section
+      aria-label="Why clients trust Debt Angel"
+      className="border-y border-white/10 bg-ink"
+    >
+      <div className="container py-4">
+        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:gap-x-9">
+          {trustBar.map((item) => (
+            <li
+              key={item}
+              className="flex items-center gap-2 text-sm font-medium text-cloud/80"
+            >
+              <Check className="h-4 w-4 text-money" />
+              {item}
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

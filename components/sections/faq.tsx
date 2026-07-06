@@ -1,5 +1,5 @@
 import { faqs, site } from "@/lib/site";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/reveal";
 import {
   Accordion,
@@ -10,8 +10,8 @@ import {
 
 export function Faq() {
   return (
-    <section id="faq" className="scroll-mt-24 bg-white">
-      <div className="container py-20 lg:py-28">
+    <section id="faq" className="section scroll-mt-24 bg-cloud-100">
+      <div className="container">
         <SectionHeading
           eyebrow="Straight answers"
           title="The questions worth asking"
@@ -27,11 +27,11 @@ export function Faq() {
               </AccordionItem>
             ))}
           </Accordion>
-          <p className="mt-8 text-center text-sm text-slate-500">
+          <p className="mt-8 text-center text-sm text-muted-foreground">
             Still have a question? Call{" "}
             <a
               href={`tel:${site.phone.replace(/[^0-9]/g, "")}`}
-              className="font-semibold text-teal-600 hover:underline"
+              className="font-semibold text-gold-muted hover:underline"
             >
               {site.phone}
             </a>{" "}

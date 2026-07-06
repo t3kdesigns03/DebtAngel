@@ -1,8 +1,8 @@
 {
-  "name": "jcs-financial",
+  "name": "debt-angel",
   "version": "1.0.0",
   "private": true,
-  "description": "JCS Financial — premium debt relief & credit recovery marketing site + lead qualification app",
+  "description": "Debt Angel — modern, transparent debt resolution marketing site + self-serve application",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

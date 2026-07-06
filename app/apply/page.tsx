@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { ApplicationWizard } from "@/components/application/application-wizard";
+import { ApplyWizard } from "@/components/application/apply-wizard";
 
 export const metadata: Metadata = {
-  title: "Get Your Personalized Plan",
+  title: "Build your plan",
   description:
-    "Answer a few questions and a dedicated JCS Financial advisor will build a personalized, no-pressure debt relief plan — and tell you honestly if it's the right fit.",
+    "Map your accounts, review each tradeline, and see your current path next to a Debt Angel plan in real dollars — self-serve, in minutes.",
 };
 
 export default function ApplyPage() {
   return (
-    <main className="min-h-screen bg-secondary/30 bg-grid">
-      <ApplicationWizard />
+    <main className="min-h-screen bg-cloud bg-grid">
+      <div className="container py-8 sm:py-12">
+        <ApplyWizard />
+      </div>
     </main>
   );
 }

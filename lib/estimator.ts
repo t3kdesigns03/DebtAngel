@@ -1,10 +1,43 @@
 /**
- * Debt Freedom Estimator — realistic, transparent modeling.
+ * Debt Angel — Debt Freedom Estimator.
  *
- * These are illustrative estimates for education only. Real programs vary by
- * creditor, balance, delinquency, state law, and a client's ability to fund a
- * dedicated account. Nothing here is a guarantee, an offer, or advice.
+ * Smarter, Faster, Cheaper. These are transparent, deliberately conservative
+ * illustrations for education only — not an offer, guarantee, or advice. Real
+ * outcomes vary by creditor, balance, delinquency, state law, and a client's
+ * ability to fund a dedicated resolution account. Every assumption below is
+ * surfaced to the client in the UI so nothing is hidden.
  */
+
+export interface Tradeline {
+  id: string;
+  creditor: string;
+  type: "credit-card" | "personal-loan" | "medical" | "retail-card" | "other";
+  balance: number;
+  /** Credit limit — used for utilization. Omit/0 for loans. */
+  limit?: number;
+  apr: number; // annual %, e.g. 24.99
+  minPayment: number;
+  /** Account open date, ISO "YYYY-MM". */
+  opened?: string;
+  status: "current" | "past-due" | "collections";
+}
+
+export interface TradelineMetrics {
+  utilizationPct: number; // 0-100+, revolving only
+  monthlyInterest: number; // $ this account bleeds each month
+  balancePctOfTotal: number; // share of total enrolled balance
+  isRevolving: boolean;
+}
+
+export interface PortfolioSummary {
+  totalBalance: number;
+  totalLimit: number;
+  totalMinPayment: number;
+  totalMonthlyInterest: number;
+  weightedApr: number; // balance-weighted APR
+  overallUtilizationPct: number; // revolving only
+  count: number;
+}
 
 export interface EstimatorInputs {
   /** Total enrolled unsecured debt (credit cards, personal loans, some medical). */
@@ -13,47 +46,61 @@ export interface EstimatorInputs {
   currentMonthlyPayment: number;
   /** Comfortable amount they could set aside monthly for a dedicated account. */
   monthlyBudget: number;
+  /** Optional: assumed blended APR for the "current path" model. */
+  assumedApr?: number;
 }
 
 export interface EstimatorResult {
-  /** Low/high settlement as a % of enrolled balance actually paid to creditors. */
   settlementLowPct: number;
   settlementHighPct: number;
-  /** Dollar amount paid to creditors (before program fee), low/high. */
   settledLow: number;
   settledHigh: number;
-  /** Performance-based program fee (a % of enrolled debt), low/high. */
   feeLow: number;
   feeHigh: number;
-  /** All-in cost to become debt free (settlements + fee), low/high. */
   programCostLow: number;
   programCostHigh: number;
-  /** Projected total savings vs. enrolled balance, low/high. */
+  programCostMid: number;
   savingsLow: number;
   savingsHigh: number;
-  /** Estimated program length in months, low/high. */
+  savingsMid: number;
   monthsLow: number;
   monthsHigh: number;
-  /** Suggested monthly program deposit (what we'd aim to fund the account with). */
   suggestedMonthly: number;
-  /** Rough comparison: what minimum-only payoff might cost over time. */
   minimumOnlyTotal: number;
   minimumOnlyMonths: number;
-  /** Whether the budget realistically supports a program in a sensible window. */
   budgetFit: "comfortable" | "workable" | "tight";
 }
 
-/* Assumptions — deliberately conservative and disclosed in the UI. */
-const SETTLEMENT_LOW = 0.4; // 40% of balance paid to creditors (a strong outcome)
-const SETTLEMENT_HIGH = 0.55; // 55% (a more conservative outcome)
+/** Side-by-side numbers that power the visual comparison page. */
+export interface Comparison {
+  current: {
+    monthlyPayment: number;
+    totalPayoff: number;
+    months: number;
+  };
+  proposed: {
+    monthlyPayment: number;
+    totalCost: number;
+    months: number;
+  };
+  monthlyRelief: number; // current monthly − proposed monthly
+  totalSavings: number; // current payoff − proposed cost
+  savingsPct: number; // totalSavings / current payoff
+  monthsSaved: number;
+}
+
+/* Assumptions — conservative and disclosed in the UI. */
+const SETTLEMENT_LOW = 0.4; // strong outcome: 40% of balance paid to creditors
+const SETTLEMENT_HIGH = 0.55; // conservative outcome: 55%
 const FEE_LOW = 0.18; // performance-based fee, low end of enrolled debt
 const FEE_HIGH = 0.25; // performance-based fee, high end
-const APR_ASSUMED = 0.24; // typical revolving APR for the minimum-only comparison
+const APR_ASSUMED = 0.2299; // typical revolving APR for the current-path model
 const MIN_PAYMENT_RATE = 0.02; // ~2% of balance as a typical minimum
 
 export function estimate(inputs: EstimatorInputs): EstimatorResult {
   const totalDebt = Math.max(0, inputs.totalDebt || 0);
   const budget = Math.max(0, inputs.monthlyBudget || 0);
+  const apr = inputs.assumedApr ?? APR_ASSUMED;
 
   const settledLow = totalDebt * SETTLEMENT_LOW;
   const settledHigh = totalDebt * SETTLEMENT_HIGH;
@@ -62,23 +109,24 @@ export function estimate(inputs: EstimatorInputs): EstimatorResult {
 
   const programCostLow = settledLow + feeLow;
   const programCostHigh = settledHigh + feeHigh;
+  const programCostMid = (programCostLow + programCostHigh) / 2;
 
-  const savingsLow = Math.max(0, totalDebt - programCostHigh); // conservative savings
-  const savingsHigh = Math.max(0, totalDebt - programCostLow); // optimistic savings
+  const savingsLow = Math.max(0, totalDebt - programCostHigh); // conservative
+  const savingsHigh = Math.max(0, totalDebt - programCostLow); // optimistic
+  const savingsMid = Math.max(0, totalDebt - programCostMid);
 
-  // Suggested monthly deposit: fund the higher all-in cost over ~36 months,
-  // but never suggest more than the person told us they can afford.
-  const targetMonths = 36;
-  const idealMonthly = programCostHigh / targetMonths;
-  const suggestedMonthly = budget > 0 ? Math.min(budget, Math.max(idealMonthly, budget * 0.9)) : idealMonthly;
+  // Suggested monthly deposit: fund the mid all-in cost over ~40 months, but
+  // never suggest more than the person told us they can afford.
+  const targetMonths = 40;
+  const idealMonthly = programCostMid / targetMonths;
+  const suggestedMonthly =
+    budget > 0 ? Math.min(budget, Math.max(idealMonthly, budget * 0.9)) : idealMonthly;
 
-  // Program length driven by how fast the dedicated account can fund settlements.
   const fundingMonthly = budget > 0 ? budget : idealMonthly;
   const monthsLow = clampMonths(programCostLow / Math.max(fundingMonthly, 1));
   const monthsHigh = clampMonths(programCostHigh / Math.max(fundingMonthly, 1));
 
-  // Minimum-only comparison (amortize at assumed APR with ~2% minimums).
-  const minOnly = minimumOnlyPayoff(totalDebt);
+  const minOnly = minimumOnlyPayoff(totalDebt, apr);
 
   const ratio = budget > 0 && idealMonthly > 0 ? budget / idealMonthly : 0;
   const budgetFit: EstimatorResult["budgetFit"] =
@@ -93,8 +141,10 @@ export function estimate(inputs: EstimatorInputs): EstimatorResult {
     feeHigh,
     programCostLow,
     programCostHigh,
+    programCostMid,
     savingsLow,
     savingsHigh,
+    savingsMid,
     monthsLow,
     monthsHigh,
     suggestedMonthly,
@@ -104,15 +154,112 @@ export function estimate(inputs: EstimatorInputs): EstimatorResult {
   };
 }
 
+/**
+ * Build the current-vs-proposed comparison the visual summary page renders.
+ * `currentMonthly` defaults to the estimator input; pass the real sum of
+ * minimum payments when tradelines are known for a truer picture.
+ */
+export function buildComparison(
+  inputs: EstimatorInputs,
+  result: EstimatorResult,
+): Comparison {
+  const currentMonthly =
+    inputs.currentMonthlyPayment > 0
+      ? inputs.currentMonthlyPayment
+      : Math.max(inputs.totalDebt * MIN_PAYMENT_RATE, 25);
+
+  const proposedMonthly = result.suggestedMonthly;
+  const proposedMonths = Math.round((result.monthsLow + result.monthsHigh) / 2);
+  const proposedCost = result.programCostMid;
+
+  const totalSavings = Math.max(0, result.minimumOnlyTotal - proposedCost);
+  const savingsPct =
+    result.minimumOnlyTotal > 0 ? (totalSavings / result.minimumOnlyTotal) * 100 : 0;
+  const monthsSaved = Math.max(0, result.minimumOnlyMonths - proposedMonths);
+
+  return {
+    current: {
+      monthlyPayment: currentMonthly,
+      totalPayoff: result.minimumOnlyTotal,
+      months: result.minimumOnlyMonths,
+    },
+    proposed: {
+      monthlyPayment: proposedMonthly,
+      totalCost: proposedCost,
+      months: proposedMonths,
+    },
+    monthlyRelief: Math.max(0, currentMonthly - proposedMonthly),
+    totalSavings,
+    savingsPct,
+    monthsSaved,
+  };
+}
+
+/* ── Tradeline helpers (power the Individual Tradeline View) ───────────── */
+
+export function tradelineMetrics(
+  tl: Tradeline,
+  totalBalance: number,
+): TradelineMetrics {
+  const isRevolving = tl.type === "credit-card" || tl.type === "retail-card";
+  const utilizationPct =
+    isRevolving && tl.limit && tl.limit > 0 ? (tl.balance / tl.limit) * 100 : 0;
+  return {
+    utilizationPct,
+    monthlyInterest: (tl.balance * (tl.apr / 100)) / 12,
+    balancePctOfTotal: totalBalance > 0 ? (tl.balance / totalBalance) * 100 : 0,
+    isRevolving,
+  };
+}
+
+export function summarizePortfolio(tradelines: Tradeline[]): PortfolioSummary {
+  const totalBalance = sum(tradelines.map((t) => t.balance));
+  const revolving = tradelines.filter(
+    (t) => t.type === "credit-card" || t.type === "retail-card",
+  );
+  const totalLimit = sum(revolving.map((t) => t.limit ?? 0));
+  const revolvingBalance = sum(revolving.map((t) => t.balance));
+  const weightedApr =
+    totalBalance > 0
+      ? sum(tradelines.map((t) => t.balance * t.apr)) / totalBalance
+      : 0;
+  return {
+    totalBalance,
+    totalLimit,
+    totalMinPayment: sum(tradelines.map((t) => t.minPayment)),
+    totalMonthlyInterest: sum(tradelines.map((t) => (t.balance * (t.apr / 100)) / 12)),
+    weightedApr,
+    overallUtilizationPct:
+      totalLimit > 0 ? (revolvingBalance / totalLimit) * 100 : 0,
+    count: tradelines.length,
+  };
+}
+
+/** Utilization → status band used for color coding. */
+export function utilizationBand(pct: number): "good" | "watch" | "high" {
+  if (pct <= 30) return "good";
+  if (pct <= 60) return "watch";
+  return "high";
+}
+
+/* ── internals ────────────────────────────────────────────────────────── */
+
+function sum(arr: number[]): number {
+  return arr.reduce((a, b) => a + (Number.isFinite(b) ? b : 0), 0);
+}
+
 function clampMonths(m: number): number {
   if (!Number.isFinite(m) || m <= 0) return 12;
   return Math.round(Math.min(Math.max(m, 12), 60));
 }
 
 /** Rough payoff simulation paying only ~2% minimums at a typical APR. */
-function minimumOnlyPayoff(balance: number): { totalPaid: number; months: number } {
+function minimumOnlyPayoff(
+  balance: number,
+  apr: number,
+): { totalPaid: number; months: number } {
   if (balance <= 0) return { totalPaid: 0, months: 0 };
-  const monthlyRate = APR_ASSUMED / 12;
+  const monthlyRate = apr / 12;
   let bal = balance;
   let totalPaid = 0;
   let months = 0;

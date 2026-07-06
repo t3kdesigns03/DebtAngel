@@ -1,12 +1,18 @@
 import { z } from "zod";
+import type { Tradeline } from "@/lib/estimator";
 
-export const debtTypeOptions = [
-  { value: "credit_cards", label: "Credit cards" },
-  { value: "personal_loans", label: "Personal loans" },
-  { value: "medical", label: "Medical bills" },
-  { value: "collections", label: "Collections / charge-offs" },
-  { value: "store_cards", label: "Store / retail cards" },
+export const tradelineTypeOptions = [
+  { value: "credit-card", label: "Credit card" },
+  { value: "retail-card", label: "Retail / store card" },
+  { value: "personal-loan", label: "Personal loan" },
+  { value: "medical", label: "Medical bill" },
   { value: "other", label: "Other unsecured" },
+] as const;
+
+export const tradelineStatusOptions = [
+  { value: "current", label: "Current" },
+  { value: "past-due", label: "Past due" },
+  { value: "collections", label: "In collections" },
 ] as const;
 
 export const goalOptions = [
@@ -16,19 +22,19 @@ export const goalOptions = [
     description: "Stop juggling minimums and due dates",
   },
   {
-    value: "less_stress",
-    label: "Less stress and fewer calls",
-    description: "Get the weight — and the phone calls — off my back",
+    value: "debt_free_faster",
+    label: "Reach Debt Zero faster",
+    description: "A real finish line in years, not decades",
   },
   {
-    value: "debt_free_faster",
-    label: "Be debt-free faster",
-    description: "A real finish line in years, not decades",
+    value: "pay_less",
+    label: "Pay less overall",
+    description: "Resolve balances for less than I owe",
   },
   {
     value: "rebuild_credit",
     label: "Rebuild my credit",
-    description: "Resolve the debt, then repair my score",
+    description: "Resolve the debt, then recover my score",
   },
 ] as const;
 
@@ -49,7 +55,7 @@ export const creditPriorityOptions = [
   {
     value: "not_priority",
     label: "Not a priority right now",
-    description: "I'm focused on getting out of debt",
+    description: "I'm focused on reaching Debt Zero",
   },
   {
     value: "somewhat",
@@ -66,8 +72,30 @@ export const creditPriorityOptions = [
 const values = <T extends readonly { value: string }[]>(opts: T) =>
   opts.map((o) => o.value) as [string, ...string[]];
 
+export const tradelineSchema = z.object({
+  id: z.string(),
+  creditor: z.string().min(1, "Add the creditor name"),
+  type: z.enum(values(tradelineTypeOptions)),
+  balance: z
+    .number({ invalid_type_error: "Enter a balance" })
+    .min(1, "Enter a balance"),
+  limit: z
+    .number({ invalid_type_error: "Enter a limit" })
+    .min(0)
+    .optional(),
+  apr: z
+    .number({ invalid_type_error: "Enter an APR" })
+    .min(0, "Enter an APR")
+    .max(60, "That APR looks too high"),
+  minPayment: z
+    .number({ invalid_type_error: "Enter a minimum payment" })
+    .min(0, "Enter a minimum payment"),
+  opened: z.string().optional(),
+  status: z.enum(values(tradelineStatusOptions)),
+});
+
 export const applicationSchema = z.object({
-  // Step 1 — contact
+  // Phase 1 — contact
   firstName: z.string().min(1, "Please enter your first name"),
   lastName: z.string().min(1, "Please enter your last name"),
   email: z.string().min(1, "Email is required").email("Please enter a valid email"),
@@ -77,13 +105,10 @@ export const applicationSchema = z.object({
     .regex(/^[0-9()+\-.\s]+$/, "Please enter a valid phone number"),
   zip: z.string().regex(/^\d{5}$/, "Enter a 5-digit ZIP code"),
 
-  // Step 2 — debt overview
-  debtTypes: z.array(z.enum(values(debtTypeOptions))).min(1, "Select at least one"),
-  totalDebt: z
-    .number({ invalid_type_error: "Enter your approximate total" })
-    .min(1000, "Enter your approximate total"),
+  // Phase 2 — accounts (tradelines)
+  tradelines: z.array(tradelineSchema).min(1, "Add at least one account"),
 
-  // Step 3 — current situation
+  // Phase 3 — monthly picture
   currentMonthlyPayment: z
     .number({ invalid_type_error: "Enter an approximate amount" })
     .min(0, "Enter an approximate amount"),
@@ -94,19 +119,16 @@ export const applicationSchema = z.object({
     errorMap: () => ({ message: "Select one" }),
   }),
 
-  // Step 4 — goals
-  goal: z.enum(values(goalOptions), { errorMap: () => ({ message: "Pick what fits best" }) }),
-  breathingRoom: z.string().max(500).optional().or(z.literal("")),
-
-  // Step 5 — qualification
+  // Phase 6 — goals + qualification + consent
+  goal: z.enum(values(goalOptions), {
+    errorMap: () => ({ message: "Pick what fits best" }),
+  }),
   creditPriority: z.enum(values(creditPriorityOptions), {
     errorMap: () => ({ message: "Select one" }),
   }),
   timeline: z.enum(values(timelineOptions), {
     errorMap: () => ({ message: "Select one" }),
   }),
-
-  // Step 6 — review
   consent: z.literal(true, {
     errorMap: () => ({ message: "Please confirm to continue" }),
   }),
@@ -120,63 +142,95 @@ export const defaultValues: Partial<ApplicationData> = {
   email: "",
   phone: "",
   zip: "",
-  debtTypes: [],
-  totalDebt: undefined,
+  tradelines: [],
   currentMonthlyPayment: undefined,
   monthlyBudget: undefined,
+  employment: undefined,
   goal: undefined,
-  breathingRoom: "",
   creditPriority: undefined,
   timeline: undefined,
   consent: undefined as unknown as true,
 };
 
-/** Fields validated at each step (0-indexed) before advancing. */
+/** A newly-added, empty tradeline row. */
+export function emptyTradeline(): Tradeline {
+  return {
+    id: cryptoId(),
+    creditor: "",
+    type: "credit-card",
+    balance: 0,
+    limit: 0,
+    apr: 22.99,
+    minPayment: 0,
+    opened: "",
+    status: "current",
+  };
+}
+
+/** A realistic sample portfolio — powers the "import my accounts" demo. */
+export function sampleTradelines(): Tradeline[] {
+  return [
+    { id: cryptoId(), creditor: "Summit Visa", type: "credit-card", balance: 8450, limit: 10000, apr: 24.99, minPayment: 212, opened: "2018-05", status: "current" },
+    { id: cryptoId(), creditor: "Northgate Mastercard", type: "credit-card", balance: 6120, limit: 7500, apr: 27.49, minPayment: 168, opened: "2019-11", status: "past-due" },
+    { id: cryptoId(), creditor: "Everline Personal Loan", type: "personal-loan", balance: 9300, apr: 18.5, minPayment: 260, opened: "2021-03", status: "current" },
+    { id: cryptoId(), creditor: "Harbor Retail Card", type: "retail-card", balance: 2380, limit: 3000, apr: 29.99, minPayment: 74, opened: "2020-08", status: "current" },
+    { id: cryptoId(), creditor: "Cedar Medical", type: "medical", balance: 4150, apr: 0, minPayment: 95, opened: "2023-02", status: "collections" },
+  ];
+}
+
+function cryptoId(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return `tl_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+/** Fields validated at each phase (0-indexed) before advancing. Empty = display-only. */
 export const stepFields: (keyof ApplicationData)[][] = [
   ["firstName", "lastName", "email", "phone", "zip"],
-  ["debtTypes", "totalDebt"],
+  ["tradelines"],
   ["currentMonthlyPayment", "monthlyBudget", "employment"],
-  ["goal"],
-  ["creditPriority", "timeline"],
-  ["consent"],
+  [], // tradeline review (display)
+  [], // comparison (display)
+  ["goal", "creditPriority", "timeline", "consent"],
 ];
 
 export const stepMeta = [
-  { title: "Let's start with hello", subtitle: "So your advisor knows who they're helping." },
-  { title: "Your debt, roughly", subtitle: "Ballpark is fine — we'll confirm the details together." },
-  { title: "Your monthly picture", subtitle: "This helps us build a plan you can actually breathe with." },
-  { title: "What breathing room means to you", subtitle: "There are no wrong answers here." },
-  { title: "A quick honesty check", subtitle: "So we can tell you if this is genuinely the right fit." },
-  { title: "Review and send", subtitle: "One last look before your advisor reaches out." },
-];
+  { phase: "Phase 1", title: "Let's start with hello", subtitle: "So we can tailor your plan and reach you when it's ready." },
+  { phase: "Phase 2", title: "Map your accounts", subtitle: "Import a sample or add each account. Ballpark numbers are fine." },
+  { phase: "Phase 3", title: "Your monthly picture", subtitle: "This shapes a plan you can actually afford." },
+  { phase: "Phase 4", title: "Review each tradeline", subtitle: "See exactly what's happening with every account." },
+  { phase: "Phase 5", title: "Your plan, side by side", subtitle: "Current path vs. Debt Angel — in real dollars." },
+  { phase: "Phase 6", title: "Goals & submit", subtitle: "One last look before we build your plan." },
+] as const;
 
 /**
- * Honest fit signal shown to the user on the qualification step.
- * This is guidance, not a hard gate — we never reject anyone outright.
+ * Honest fit signal shown to the user. Guidance, not a hard gate —
+ * we never reject anyone outright.
  */
 export function assessFit(data: Partial<ApplicationData>): {
   tone: "good" | "caution";
   headline: string;
   body: string;
 } {
-  const debt = Number(data.totalDebt || 0);
+  const debt = (data.tradelines ?? []).reduce((a, t) => a + (t.balance || 0), 0);
   if (data.creditPriority === "critical") {
     return {
       tone: "caution",
       headline: "Let's talk before you enroll",
-      body: "Because protecting your credit is critical right now, a settlement program may not be your best first move. Your advisor will walk through lower-impact options honestly — even if that means not enrolling.",
+      body: "Because protecting your credit is critical right now, a resolution plan may not be your best first move. We'll walk through lower-impact options honestly — even if that means not enrolling.",
     };
   }
   if (debt > 0 && debt < 7500) {
     return {
       tone: "caution",
       headline: "There may be a simpler path",
-      body: "At this balance, options like a focused payoff plan or credit counseling might serve you better than settlement. We'll give you a straight recommendation — no pressure to enroll.",
+      body: "At this balance, a focused payoff plan or credit counseling might serve you better than a resolution program. You'll get a straight recommendation — no pressure to enroll.",
     };
   }
   return {
     tone: "good",
     headline: "This looks like a strong fit",
-    body: "Based on what you've shared, a program could create real breathing room. Your advisor will confirm the details and build your exact plan.",
+    body: "Based on what you've shared, a Debt Angel plan could create real breathing room and meaningful savings. Submit and we'll confirm the details and finalize your exact plan.",
   };
 }

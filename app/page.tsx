@@ -1,33 +1,31 @@
-import { Navbar } from "@/components/sections/navbar";
+import { SiteHeader } from "@/components/sections/site-header";
 import { Hero } from "@/components/sections/hero";
 import { TrustBar } from "@/components/sections/trust-bar";
-import { ProblemApproach } from "@/components/sections/problem-approach";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Difference } from "@/components/sections/difference";
-import { Estimator } from "@/components/sections/estimator";
+import { EstimatorSection } from "@/components/sections/estimator-section";
+import { ComparisonTeaser } from "@/components/sections/comparison-teaser";
 import { Testimonials } from "@/components/sections/testimonials";
-import { Transparency } from "@/components/sections/transparency";
 import { Faq } from "@/components/sections/faq";
 import { FinalCta } from "@/components/sections/final-cta";
-import { Footer } from "@/components/sections/footer";
+import { SiteFooter } from "@/components/sections/site-footer";
 
 export default function HomePage() {
   return (
     <>
-      <Navbar />
+      <SiteHeader />
       <main>
         <Hero />
         <TrustBar />
-        <ProblemApproach />
         <HowItWorks />
         <Difference />
-        <Estimator />
+        <EstimatorSection />
+        <ComparisonTeaser />
         <Testimonials />
-        <Transparency />
         <Faq />
         <FinalCta />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

@@ -1,56 +1,48 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { steps } from "@/lib/site";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { Icon } from "@/components/shared/icon";
 import { Reveal } from "@/components/reveal";
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="scroll-mt-24 bg-white">
-      <div className="container py-20 lg:py-28">
+    <section id="how-it-works" className="section scroll-mt-24">
+      <div className="container">
         <SectionHeading
           eyebrow="How it works"
-          title="Five calm steps — and you approve every one"
-          description="No black boxes. Expert negotiators do the hard part; you stay in control and watch the debt fall in real time."
+          title="Five clear phases — and you approve every one"
+          description="Move through at your own pace, self-serve or on autopilot. No black boxes, no call-center queue. You see exactly what's happening the whole way."
         />
 
-        <div className="relative mt-16">
-          {/* connecting line */}
-          <div
-            className="absolute left-[27px] top-4 hidden h-[calc(100%-2rem)] w-px bg-gradient-to-b from-teal-200 via-teal-300 to-gold/40 md:block"
-            aria-hidden
-          />
-          <ol className="space-y-6">
-            {steps.map((step, i) => (
-              <Reveal key={step.n} delay={i * 0.05}>
-                <li className="relative grid gap-4 rounded-2xl border border-border bg-card p-6 shadow-soft transition-shadow hover:shadow-lift md:grid-cols-[auto_1fr] md:gap-6 md:p-7">
-                  <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-navy text-lg font-semibold text-white ring-4 ring-white">
-                    {step.n}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-navy">{step.title}</h3>
-                    <p className="mt-1 text-base font-medium text-teal-600">{step.body}</p>
-                    <p className="mt-2 text-[15px] leading-relaxed text-slate-600">
-                      {step.detail}
-                    </p>
-                  </div>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
+        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {steps.map((step, i) => (
+            <Reveal key={step.n} delay={i * 0.05}>
+              <div className="group relative flex h-full flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition-shadow hover:shadow-lift">
+                <div className="flex items-center justify-between">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ink text-gold">
+                    <Icon name={step.icon} className="h-5 w-5" />
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-muted">
+                    {step.phase}
+                  </span>
+                </div>
+                <h3 className="mt-5 font-display text-xl font-semibold">
+                  {step.title}
+                </h3>
+                <p className="mt-1 text-[15px] font-medium text-money-deep">
+                  {step.body}
+                </p>
+                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                  {step.detail}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
 
-        <motion.p
-          className="mx-auto mt-12 max-w-xl text-center text-sm text-slate-500"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Steps 1&ndash;5 typically span 24&ndash;48 months. Your estimate below shows a
-          realistic range for your situation.
-        </motion.p>
+        <p className="mx-auto mt-10 max-w-xl text-center text-sm text-muted-foreground">
+          Most plans span 24–48 months. Your estimator below shows a realistic
+          range for your exact situation.
+        </p>
       </div>
     </section>
   );

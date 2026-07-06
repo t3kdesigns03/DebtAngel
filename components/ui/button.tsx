@@ -6,19 +6,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
+        // Gold — the primary conversion CTA
         default:
-          "bg-accent text-accent-foreground shadow-soft hover:bg-teal-600 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0",
-        primary:
-          "bg-primary text-primary-foreground shadow-soft hover:bg-navy-800 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0",
+          "bg-gold-sheen text-ink shadow-gold hover:brightness-[1.04] hover:-translate-y-0.5 active:translate-y-0",
+        gold:
+          "bg-gold-sheen text-ink shadow-gold hover:brightness-[1.04] hover:-translate-y-0.5 active:translate-y-0",
+        // Money green — success / positive actions
+        money:
+          "bg-money-sheen text-white shadow-money hover:brightness-[1.05] hover:-translate-y-0.5 active:translate-y-0",
+        // Ink — solid dark
+        ink:
+          "bg-ink text-cloud shadow-soft hover:bg-ink-700 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0",
         outline:
-          "border border-border bg-background/60 backdrop-blur hover:bg-secondary hover:border-accent/40",
-        ghost: "hover:bg-secondary hover:text-foreground",
-        gold: "bg-gold text-navy shadow-soft hover:brightness-105 hover:-translate-y-0.5",
-        link: "text-accent underline-offset-4 hover:underline",
+          "border border-border bg-background/60 backdrop-blur hover:bg-muted hover:border-gold/50",
+        ghost: "hover:bg-muted hover:text-foreground",
+        link: "text-gold-muted underline-offset-4 hover:underline",
       },
       size: {
         default: "h-11 px-6 py-2",
@@ -28,7 +34,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: { variant: "default", size: "default" },
-  }
+  },
 );
 
 export interface ButtonProps
@@ -47,7 +53,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  }
+  },
 );
 Button.displayName = "Button";
 

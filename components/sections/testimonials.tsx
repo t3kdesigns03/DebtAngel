@@ -1,60 +1,59 @@
-"use client";
-
-import { Star, Quote, Sparkles, TrendingUp } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import { testimonials } from "@/lib/site";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/reveal";
-import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export function Testimonials() {
   return (
-    <section className="bg-white">
-      <div className="container py-20 lg:py-28">
+    <section id="testimonials" className="section scroll-mt-24">
+      <div className="container">
         <SectionHeading
-          eyebrow="Real stories"
-          title="Relief you can feel — and a rebuild that lasts"
-          description="A mix of settlement wins and credit-recovery comebacks. Names changed for privacy; outcomes are illustrative composites of client results."
+          eyebrow="Real momentum"
+          title="Debt Zero, on their own terms"
+          description="Illustrative client composites showing the kinds of outcomes a structured, responsible plan can create."
         />
 
-        <div className="mt-14 columns-1 gap-5 md:columns-2 lg:columns-3 [&>*]:mb-5 [&>*]:break-inside-avoid">
+        <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
           {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={(i % 3) * 0.06}>
-              <figure className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-shadow hover:shadow-lift">
-                <div className="flex items-center justify-between">
-                  <div className="flex">
-                    {[...Array(5)].map((_, s) => (
-                      <Star key={s} className="h-4 w-4 fill-gold text-gold" />
-                    ))}
-                  </div>
-                  <Badge variant={t.kind === "recovery" ? "gold" : "default"}>
-                    {t.kind === "recovery" ? (
-                      <TrendingUp className="h-3 w-3" />
-                    ) : (
-                      <Sparkles className="h-3 w-3" />
-                    )}
-                    {t.kind === "recovery" ? "Recovery" : "Relief"}
-                  </Badge>
-                </div>
-                <Quote className="mt-4 h-6 w-6 text-teal-200" />
-                <blockquote className="mt-2 text-[15px] leading-relaxed text-slate-700">
+            <Reveal key={t.name} delay={(i % 3) * 0.05}>
+              <figure className="break-inside-avoid rounded-3xl border border-border bg-card p-6 shadow-soft">
+                <Quote className="h-6 w-6 text-gold" />
+                <blockquote className="mt-3 text-[15px] leading-relaxed text-foreground">
                   {t.quote}
                 </blockquote>
                 <figcaption className="mt-5 border-t border-border pt-4">
-                  <p className="text-sm font-semibold text-navy">{t.name}</p>
-                  <p className="text-xs text-slate-500">{t.location}</p>
-                  <p className="mt-2 inline-block rounded-lg bg-teal-50 px-2.5 py-1 text-xs font-medium text-teal-700">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold">{t.name}</span>
+                    <span className="flex">
+                      {[...Array(5)].map((_, s) => (
+                        <Star key={s} className="h-3.5 w-3.5 fill-gold text-gold" />
+                      ))}
+                    </span>
+                  </div>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">
+                    {t.location}
+                  </span>
+                  <span
+                    className={cn(
+                      "mt-3 inline-block rounded-full px-3 py-1 text-xs font-semibold",
+                      t.kind === "recovery"
+                        ? "bg-gold-soft text-gold-muted"
+                        : "bg-money-soft text-money-deep",
+                    )}
+                  >
                     {t.outcome}
-                  </p>
+                  </span>
                 </figcaption>
               </figure>
             </Reveal>
           ))}
         </div>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center text-xs text-slate-400">
+        <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-muted-foreground">
           Testimonials reflect illustrative composite outcomes and do not
           guarantee similar results. Individual results vary based on your
-          circumstances, creditors, and ability to fund your program.
+          circumstances, creditors, and ability to fund your plan.
         </p>
       </div>
     </section>
