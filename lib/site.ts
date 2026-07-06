@@ -9,9 +9,9 @@
 
 export const site = {
   name: "Debt Angel",
-  motto: "Smarter, Faster, Cheaper. Your Debt Zero with the least amount of risk.",
-  mottoShort: "Smarter, Faster, Cheaper.",
-  tagline: "Your Debt Zero with the least amount of risk.",
+  motto: "See your way out of debt — a clear plan for your unsecured balances, and you approve every step.",
+  mottoShort: "A clearer way through unsecured debt.",
+  tagline: "A clear plan for your unsecured debt — and you approve every step.",
   domain: "debtangel.com",
   phone: "(000) 000-0000", // TODO: placeholder — replace with the real number
   email: "hello@debtangel.com",
@@ -49,25 +49,25 @@ export const pillars: Pillar[] = [
   {
     key: "faster",
     word: "Faster",
-    headline: "A real finish line, in months not decades",
-    body: "One structured plan replaces years of minimum payments. Most paths to Debt Zero land far sooner than paying minimums ever could — and your credit tends to recover as a byproduct.",
+    headline: "A realistic finish line you can see",
+    body: "One structured plan replaces years of minimum payments. Depending on what you can set aside each month, resolving your balances may take far less time than making minimum payments alone — though timelines vary by situation.",
     icon: "Rocket",
   },
   {
     key: "cheaper",
     word: "Cheaper",
-    headline: "Pay less to reach zero",
-    body: "Resolve balances for less than you owe, with performance-based pricing and no prepayment penalty. You see the all-in cost — and your total savings — before you commit.",
+    headline: "Aim to resolve for less than you owe",
+    body: "The goal is to resolve unsecured balances for less than the full amount owed, with performance-based pricing and no prepayment penalty. You see the estimated all-in cost — and your estimated savings — before you commit.",
     icon: "PiggyBank",
   },
 ];
 
-/** The "No [bad outcomes]" promise list. */
+/** Scope clarification — what the program is and isn't. */
 export const noList: { label: string; sub: string }[] = [
-  { label: "No bankruptcy", sub: "Keep your record and your options open." },
-  { label: "No foreclosure", sub: "Your home stays your home." },
-  { label: "No short sale", sub: "No forced sale under pressure." },
-  { label: "No repossession", sub: "Keep the car in the driveway." },
+  { label: "Built for unsecured debt", sub: "Credit cards, personal loans, many medical bills, and similar balances." },
+  { label: "Not a bankruptcy filing", sub: "A debt-resolution program, not a legal bankruptcy process." },
+  { label: "Not a foreclosure or short-sale program", sub: "We focus on unsecured balances, not your mortgage." },
+  { label: "Not a repossession program", sub: "Secured loans like auto loans generally don't qualify." },
   { label: "No prepayment penalty", sub: "Finish early and pay nothing extra." },
 ];
 
@@ -76,20 +76,20 @@ export interface Proof {
   label: string;
 }
 
-/** Specific, ownable proof points — replace with real, substantiated numbers. */
+/** Process-oriented proof points — factual, non-outcome claims. */
 export const proofPoints: Proof[] = [
-  { stat: "Avg. 45%", label: "less paid on resolved balances vs. the amount owed" },
-  { stat: "24–48 mo", label: "typical path to Debt Zero for most plans" },
   { stat: "$0", label: "upfront fees — performance-based pricing only" },
-  { stat: "100%", label: "self-serve or advisor-assisted — you choose" },
+  { stat: "Unsecured", label: "credit cards, personal loans & similar balances" },
+  { stat: "Every step", label: "you review and approve before anything moves" },
+  { stat: "Side by side", label: "your current path next to an estimated plan" },
 ];
 
 export const trustBar: string[] = [
   "No upfront fees",
-  "You approve every move",
+  "You approve every step",
   "Transparent all-in cost",
-  "Self-serve or autopilot",
-  "Faster credit recovery",
+  "Self-serve or advisor-assisted",
+  "Built for unsecured debt",
 ];
 
 export interface Step {
@@ -141,10 +141,10 @@ export const steps: Step[] = [
   {
     n: 5,
     phase: "Phase 5",
-    title: "Reach Debt Zero — and rebuild",
-    body: "Cross the finish line, then keep the momentum with credit-recovery guidance.",
+    title: "Reach Debt Zero — and plan your next step",
+    body: "Cross the finish line, then get guidance for your fresh start.",
     detail:
-      "Creditworthiness usually recovers faster as a byproduct of a structured, responsible plan. When you hit zero, a step-by-step recovery path helps the fresh start stick.",
+      "When you reach Debt Zero, we share general educational guidance for life after resolution. Credit outcomes vary by individual and are not guaranteed.",
     icon: "Trophy",
   },
 ];
@@ -173,13 +173,13 @@ export const differences: Difference[] = [
   },
   {
     icon: "ShieldCheck",
-    title: "The least amount of risk",
-    body: "No bankruptcy, no foreclosure, no short sale, no repossession, and no prepayment penalty. A structured, responsible path — not a drastic one.",
+    title: "Built for unsecured debt",
+    body: "Debt Angel is a debt-resolution program for unsecured balances — not a bankruptcy, foreclosure, short sale, or repossession. Some debts, creditors, states, and situations may not qualify.",
   },
   {
     icon: "TrendingUp",
-    title: "Credit recovers faster",
-    body: "Creditworthiness usually recovers faster as a natural byproduct of a structured plan. We help you rebuild once you reach Debt Zero.",
+    title: "An honest read on fit",
+    body: "If a resolution plan isn't right for your situation, we'll tell you — even if that means not enrolling. You get a straight recommendation, not pressure.",
   },
   {
     icon: "BadgeDollarSign",
@@ -260,11 +260,11 @@ export interface Faq {
 export const faqs: Faq[] = [
   {
     q: "What is Debt Angel, exactly?",
-    a: "Debt Angel is a modern, transparent, client-driven debt resolution program. You map your accounts, see your current path next to a proposed plan in real dollars, then resolve balances for less than you owe — self-serve or with an advisor. The goal is Debt Zero, Smarter, Faster, and Cheaper, with the least amount of risk.",
+    a: "Debt Angel is a modern, transparent, client-driven debt-resolution program for unsecured debt. You map your accounts, see your current path next to an estimated plan in real dollars, then work to resolve balances for less than the full amount owed — self-serve or with an advisor. You review and approve every step before anything moves forward.",
   },
   {
-    q: "How is this different from bankruptcy or other drastic options?",
-    a: "Debt Angel involves no bankruptcy, no foreclosure, no short sale, and no repossession. It's a structured, responsible plan to resolve unsecured balances — not a drastic legal step. Because it's structured and responsible, creditworthiness usually recovers faster as a byproduct.",
+    q: "How is this different from bankruptcy or other options?",
+    a: "Debt Angel is a debt-resolution program for unsecured balances — it is not a bankruptcy, foreclosure, short sale, or repossession, and we are not a law firm. Secured debts like mortgages and auto loans, and some other debts, generally don't qualify. It's one option among several, and we'll be honest about whether it fits your situation.",
   },
   {
     q: "What does it cost, and is there a prepayment penalty?",
@@ -276,7 +276,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Will this affect my credit?",
-    a: "In many resolution plans, accounts may go delinquent while balances are negotiated, which can lower your score in the short term. The trade-off is resolving debt you might not otherwise clear — and because the plan is structured and responsible, creditworthiness usually recovers faster afterward. If protecting your score for an imminent mortgage or loan is the priority, we'll tell you honestly whether this is the right fit.",
+    a: "Likely yes, at least in the short term. In many resolution plans, accounts may go delinquent while balances are negotiated, which can lower your score. Everyone's credit is different and we can't promise a specific outcome. If protecting your score for an imminent mortgage or loan is your priority, we'll tell you honestly whether this is the right fit — even if that means not enrolling.",
   },
   {
     q: "How long does it take?",

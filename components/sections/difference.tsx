@@ -16,12 +16,11 @@ export function Difference() {
           eyebrow="The Debt Angel difference"
           title={
             <>
-              <span className="text-gradient-gold">Smarter.</span>{" "}
-              <span className="text-gradient-gold">Faster.</span>{" "}
-              <span className="text-gradient-gold">Cheaper.</span>
+              A clear, structured way through{" "}
+              <span className="text-gradient-gold">unsecured debt</span>.
             </>
           }
-          description="Your debt to zero with the least amount of risk — a structured, responsible plan, not a drastic one."
+          description="A transparent plan you drive yourself — you see every account and approve every step. Designed for unsecured debt resolution; some debts, creditors, states, and situations may not qualify."
         />
 
         {/* Three pillars */}
@@ -53,7 +52,7 @@ export function Difference() {
                 <ShieldCheck className="h-5 w-5" />
               </span>
               <h3 className="font-display text-xl font-semibold text-cloud sm:text-2xl">
-                What you&rsquo;ll never face with Debt Angel
+                What Debt Angel is &mdash; and isn&rsquo;t
               </h3>
             </div>
             <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">

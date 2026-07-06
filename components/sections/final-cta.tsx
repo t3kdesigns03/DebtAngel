@@ -46,12 +46,12 @@ export function FinalCta() {
 
           <motion.div className="relative mx-auto max-w-2xl" {...copyMotion}>
             <h2 className="font-display text-3xl font-bold leading-tight tracking-tight text-cloud sm:text-4xl lg:text-5xl">
-              Your debt to zero.{" "}
-              <span className="text-gradient-gold">The least amount of risk.</span>
+              See your real plan.{" "}
+              <span className="text-gradient-gold">Approve every step.</span>
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-cloud/75 sm:text-lg">
-              Smarter, Faster, Cheaper. Map your accounts, see your real plan, and
-              take the first step in minutes — self-serve or with an advisor.
+              Map your unsecured accounts, compare your current path side by side,
+              and take the first step in minutes — self-serve or with an advisor.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button asChild size="lg" className="text-base">

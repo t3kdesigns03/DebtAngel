@@ -73,9 +73,11 @@ export interface EstimatorResult {
 
 /** Side-by-side numbers that power the visual comparison page. */
 export interface Comparison {
+  /** Total unsecured balances enrolled (what you owe today). */
+  amountOwed: number;
   current: {
     monthlyPayment: number;
-    totalPayoff: number;
+    totalPayoff: number; // illustrative minimum-only payoff (with interest)
     months: number;
   };
   proposed: {
@@ -84,8 +86,9 @@ export interface Comparison {
     months: number;
   };
   monthlyRelief: number; // current monthly − proposed monthly
-  totalSavings: number; // current payoff − proposed cost
-  savingsPct: number; // totalSavings / current payoff
+  /** Conservative, believable savings: amount owed − estimated program cost. */
+  totalSavings: number;
+  savingsPct: number; // totalSavings / amountOwed
   monthsSaved: number;
 }
 
@@ -188,13 +191,16 @@ export function buildComparison(
   const proposedMonthly = result.suggestedMonthly;
   const proposedMonths = Math.round((result.monthsLow + result.monthsHigh) / 2);
   const proposedCost = result.programCostMid;
+  const owed = Math.max(0, inputs.totalDebt || 0);
 
-  const totalSavings = Math.max(0, result.minimumOnlyTotal - proposedCost);
-  const savingsPct =
-    result.minimumOnlyTotal > 0 ? (totalSavings / result.minimumOnlyTotal) * 100 : 0;
+  // Believable, conservative savings: what you owe today vs the estimated
+  // all-in program cost — not the inflated minimum-only-with-interest total.
+  const totalSavings = Math.max(0, owed - proposedCost);
+  const savingsPct = owed > 0 ? (totalSavings / owed) * 100 : 0;
   const monthsSaved = Math.max(0, result.minimumOnlyMonths - proposedMonths);
 
   return {
+    amountOwed: owed,
     current: {
       monthlyPayment: currentMonthly,
       totalPayoff: result.minimumOnlyTotal,

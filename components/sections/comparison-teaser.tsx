@@ -24,12 +24,12 @@ export function ComparisonTeaser() {
         <SectionHeading
           eyebrow="See the whole picture"
           title="The moment it clicks"
-          description="A powerful, honest comparison of your current path versus your Debt Angel plan — new monthly amount, total cost, time saved, and total savings. This is the number that changes everything."
+          description="An honest, side-by-side comparison of your current path versus an estimated Debt Angel plan — monthly amount, estimated all-in cost, and estimated savings. Illustrative only; your real plan is built from your actual accounts."
         />
 
         <div className="mx-auto mt-12 max-w-3xl">
+          <Assumptions className="mb-4" />
           <ComparisonView comparison={comparison} />
-          <Assumptions className="mt-4" />
           <div className="mt-8 text-center">
             <Button asChild size="lg">
               <Link href={buildApplyUrl(inputs.totalDebt, inputs.monthlyBudget)}>

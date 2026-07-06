@@ -36,36 +36,34 @@ export function Hero() {
         <motion.div {...rise(0)}>
           <span className="eyebrow backdrop-blur-sm">
             <ShieldCheck className="h-3.5 w-3.5" />
-            Debt resolution, reimagined
+            A calmer way through unsecured debt
           </span>
         </motion.div>
 
         <motion.h1
-          className="mt-6 max-w-4xl text-balance font-display text-5xl font-bold leading-[1.02] tracking-tight [text-shadow:0_2px_30px_rgba(0,0,0,0.55)] sm:text-6xl lg:text-7xl"
+          className="mt-6 max-w-4xl text-balance font-display text-4xl font-bold leading-[1.05] tracking-tight [text-shadow:0_2px_30px_rgba(0,0,0,0.55)] sm:text-6xl lg:text-7xl"
           {...rise(0.08)}
         >
-          Finally, <span className="text-gradient-gold">breathing room</span>.
+          Finally see your{" "}
+          <span className="text-gradient-gold">way out of debt</span>.
         </motion.h1>
 
         <motion.p
-          className="mt-6 max-w-2xl text-lg font-medium leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.6)] sm:text-2xl"
+          className="mt-6 max-w-2xl text-lg font-medium leading-relaxed text-cloud [text-shadow:0_2px_20px_rgba(0,0,0,0.6)] sm:text-xl"
           {...rise(0.16)}
         >
-          <span className="font-semibold text-gradient-gold">
-            Smarter, Faster, Cheaper.
-          </span>{" "}
-          <span className="text-cloud">
-            Your Debt Zero with the least amount of risk.
-          </span>
+          Build a real plan for your unsecured debt, compare your current path
+          side by side, and approve every step before anything moves forward.
         </motion.p>
 
         <motion.p
           className="mt-5 hidden max-w-xl text-base leading-relaxed text-cloud/80 [text-shadow:0_1px_12px_rgba(0,0,0,0.6)] sm:block sm:text-lg"
           {...rise(0.22)}
         >
-          A modern, transparent program you drive yourself. See every account,
-          compare your plan in real dollars, and resolve balances for less than
-          you owe — no bankruptcy, foreclosure, or repossession.
+          A modern, transparent program you drive yourself. See every account and
+          compare an estimated plan in real dollars. Designed for unsecured debt
+          resolution — it is not a bankruptcy, foreclosure, or repossession
+          program, and some debts and situations may not qualify.
         </motion.p>
 
         <motion.div
@@ -93,7 +91,7 @@ export function Hero() {
           className="mt-4 text-sm text-cloud/60 [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]"
           {...rise(0.36)}
         >
-          No upfront fees · No prepayment penalty · Self-serve or autopilot
+          No upfront fees · You approve every step · Unsecured debt only
         </motion.p>
 
         {/* Proof points */}

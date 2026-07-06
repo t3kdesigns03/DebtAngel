@@ -11,7 +11,7 @@ export function EstimatorSection() {
         <SectionHeading
           eyebrow="Debt Freedom Estimator"
           title="Your numbers, side by side, in seconds"
-          description="No sign-up, nothing stored. Move the sliders and watch your current path stack up against a Debt Angel plan — in real dollars."
+          description="No sign-up, nothing stored. Move the sliders to compare your current path with an estimated Debt Angel plan. These are illustrative estimates, not an offer — actual results vary."
         />
         <div className="mt-12">
           <Estimator />

@@ -43,14 +43,24 @@ export function Assumptions({
   return (
     <aside
       className={cn(
-        "rounded-2xl border border-white/10 bg-muted/40 px-4 py-3 text-sm",
+        "rounded-2xl border border-gold/25 bg-gold/[0.06] px-4 py-4 text-sm",
         className,
       )}
-      aria-label="Example assumptions and disclaimers"
+      aria-label="How these numbers work and example assumptions"
     >
-      <p className="flex items-center gap-2 font-semibold text-foreground/80">
+      <p className="flex items-center gap-2 font-semibold text-foreground/90">
         <Info className="h-4 w-4 shrink-0 text-gold" aria-hidden />
-        Example assumptions — not an offer
+        How these numbers work
+      </p>
+      <p className="mt-2 text-[13px] leading-relaxed text-foreground/75">
+        The current path assumes <strong className="font-medium">minimum payments
+        only, with no new charges</strong>. The Debt Angel estimate assumes{" "}
+        <strong className="font-medium">typical settlement ranges and program
+        fees</strong>. These are examples for illustration — not an offer or a
+        guarantee — and actual results vary.
+      </p>
+      <p className="mt-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-gold/90">
+        Example assumptions
       </p>
       <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
         <li>

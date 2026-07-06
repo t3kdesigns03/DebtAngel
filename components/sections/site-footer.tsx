@@ -70,13 +70,13 @@ export function SiteFooter() {
 
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wide text-gold">
-              The promise
+              Good to know
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm text-cloud/70">
-              <li>No bankruptcy or foreclosure</li>
-              <li>No short sale or repossession</li>
+              <li>Built for unsecured debt</li>
+              <li>Not a bankruptcy or law firm</li>
               <li>No prepayment penalty</li>
-              <li>You approve every move</li>
+              <li>You approve every step</li>
             </ul>
           </div>
         </div>

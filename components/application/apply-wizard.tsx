@@ -641,8 +641,8 @@ function ComparisonStep({
         <strong>{currency(totalDebt)}</strong>. Here&rsquo;s your current path next to
         your Debt Angel plan.
       </div>
+      <Assumptions className="mb-4" showDisclaimer={false} />
       <ComparisonView comparison={comparison} />
-      <Assumptions className="mt-4" showDisclaimer={false} variant="compact" />
     </div>
   );
 }

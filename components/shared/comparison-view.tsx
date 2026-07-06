@@ -17,11 +17,10 @@ export function ComparisonView({
   comparison: Comparison;
   className?: string;
 }) {
-  const { current, proposed, totalSavings, savingsPct, monthsSaved, monthlyRelief } =
-    comparison;
+  const { amountOwed, current, proposed, totalSavings, savingsPct } = comparison;
 
-  const maxTotal = Math.max(current.totalPayoff, proposed.totalCost, 1);
-  const currentBar = (current.totalPayoff / maxTotal) * 100;
+  const maxTotal = Math.max(amountOwed, proposed.totalCost, 1);
+  const currentBar = (amountOwed / maxTotal) * 100;
   const proposedBar = (proposed.totalCost / maxTotal) * 100;
 
   return (
@@ -31,14 +30,15 @@ export function ComparisonView({
         <div className="absolute inset-0 grid-noise opacity-60" aria-hidden />
         <div className="relative">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
-            Your projected savings
+            Estimated savings · illustrative
           </p>
           <p className="num-display mt-2 text-5xl font-bold text-gradient-money sm:text-6xl">
             {currency(totalSavings)}
           </p>
           <p className="mt-2 text-sm text-foreground/60">
-            {percent(savingsPct)} less than your current path — with no bankruptcy,
-            foreclosure, or repossession.
+            About {percent(savingsPct)} less than the {currency(amountOwed)} you owe,
+            based on typical settlement ranges and program fees. An estimate, not an
+            offer — actual results vary.
           </p>
         </div>
       </div>
@@ -47,17 +47,17 @@ export function ComparisonView({
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Highlight
           icon={<Wallet className="h-4 w-4" />}
-          label="Monthly relief"
-          value={`${currency(monthlyRelief)}/mo`}
+          label="Est. monthly deposit"
+          value={`${currency(proposed.monthlyPayment)}/mo`}
         />
         <Highlight
           icon={<Clock className="h-4 w-4" />}
-          label="Time saved"
-          value={monthsToLabel(monthsSaved)}
+          label="Est. timeline"
+          value={monthsToLabel(proposed.months)}
         />
         <Highlight
           icon={<TrendingDown className="h-4 w-4" />}
-          label="Total cost to zero"
+          label="Est. all-in cost"
           value={currency(proposed.totalCost)}
         />
       </div>
@@ -66,20 +66,20 @@ export function ComparisonView({
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <PlanColumn
           tone="current"
-          title="Your current path"
-          subtitle="Paying minimums"
+          title="If you only pay minimums"
+          subtitle="No new charges"
           monthly={current.monthlyPayment}
           total={current.totalPayoff}
-          totalLabel="Total you'd pay"
+          totalLabel="Est. total you'd pay"
           months={current.months}
         />
         <PlanColumn
           tone="proposed"
           title="With Debt Angel"
-          subtitle="Smarter · Faster · Cheaper"
+          subtitle="Estimated plan"
           monthly={proposed.monthlyPayment}
           total={proposed.totalCost}
-          totalLabel="All-in cost"
+          totalLabel="Est. all-in cost"
           months={proposed.months}
         />
       </div>
@@ -87,22 +87,22 @@ export function ComparisonView({
       {/* Visual bars */}
       <div className="mt-4 rounded-3xl border border-white/10 bg-card p-5 sm:p-6">
         <p className="mb-4 text-sm font-medium text-foreground/60">
-          Total dollars, side by side
+          What you owe vs. estimated program cost
         </p>
         <Bar
-          label="Current path"
-          amount={current.totalPayoff}
+          label="What you owe today"
+          amount={amountOwed}
           width={currentBar}
           tone="current"
         />
         <div className="my-3 flex items-center gap-2 pl-1 text-money">
           <ArrowDown className="h-4 w-4" />
           <span className="text-sm font-semibold">
-            You keep {currency(totalSavings)}
+            Estimated savings {currency(totalSavings)}
           </span>
         </div>
         <Bar
-          label="Debt Angel plan"
+          label="Estimated all-in cost"
           amount={proposed.totalCost}
           width={proposedBar}
           tone="proposed"

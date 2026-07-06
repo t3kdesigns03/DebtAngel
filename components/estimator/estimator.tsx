@@ -16,8 +16,8 @@ import { currency, monthsToLabel } from "@/lib/utils";
  * Fully client-side; nothing is stored. Mobile-first layout.
  */
 export function Estimator({ compact = false }: { compact?: boolean }) {
-  const [totalDebt, setTotalDebt] = React.useState(28000);
-  const [monthlyBudget, setMonthlyBudget] = React.useState(520);
+  const [totalDebt, setTotalDebt] = React.useState(18000);
+  const [monthlyBudget, setMonthlyBudget] = React.useState(360);
 
   // Current minimums approximated at ~2.5% of balance (typical revolving).
   const currentMonthlyPayment = Math.round(totalDebt * 0.025);
@@ -104,8 +104,9 @@ export function Estimator({ compact = false }: { compact?: boolean }) {
 
       {/* Live comparison */}
       <div>
+        {/* Assumptions shown prominently above the numbers, not buried below. */}
+        <Assumptions className="mb-4" />
         <ComparisonView comparison={comparison} />
-        <Assumptions className="mt-4" />
       </div>
     </div>
   );

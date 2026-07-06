@@ -17,8 +17,8 @@ export function ClosingCta() {
                 <span className="text-gradient-gold">Debt Zero</span>?
               </h2>
               <p className="mt-2 text-sm text-foreground/65 sm:text-base">
-                Smarter, Faster, Cheaper — with the least amount of risk. Start free,
-                no obligation.
+                Build a clear plan for your unsecured debt. Start free, no
+                obligation.
               </p>
             </div>
             <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row">
