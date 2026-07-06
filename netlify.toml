@@ -1,9 +1,10 @@
 # Netlify build settings for Debt Angel (Next.js with server features)
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
