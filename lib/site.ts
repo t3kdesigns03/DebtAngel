@@ -192,6 +192,8 @@ export interface Testimonial {
   location: string;
   outcome: string;
   kind: "relief" | "recovery";
+  /** Optional avatar in /public/images/avatars. Falls back to initials. */
+  avatar?: string;
 }
 
 /** Illustrative composites — replace with real, consented client stories + results. */
@@ -203,6 +205,7 @@ export const testimonials: Testimonial[] = [
     location: "Tampa, FL",
     outcome: "$38,400 owed → resolved for $17,100",
     kind: "relief",
+    avatar: "/images/avatars/avatar-woman-1.jpg",
   },
   {
     quote:
@@ -211,6 +214,7 @@ export const testimonials: Testimonial[] = [
     location: "Columbus, OH",
     outcome: "5 accounts to zero in 26 months",
     kind: "relief",
+    avatar: "/images/avatars/avatar-man-1.jpg",
   },
   {
     quote:

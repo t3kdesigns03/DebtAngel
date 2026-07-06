@@ -4,17 +4,17 @@
 
 @layer base {
   :root {
-    /* Debt Angel — light "New Age" surface, gold + money-green accents */
-    --background: 60 14% 98%; /* warm off-white #FAFAF7 */
-    --foreground: 0 0% 4%; /* near-black ink */
+    /* Debt Angel — premium DARK theme by default. Gold + money-green on ink. */
+    --background: 0 0% 3.5%; /* near-black #090909 */
+    --foreground: 42 30% 96%; /* warm near-white */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 4%;
+    --card: 0 0% 7.5%; /* elevated panel #131313 */
+    --card-foreground: 42 30% 96%;
 
-    --muted: 48 20% 95%;
-    --muted-foreground: 30 4% 38%;
+    --muted: 0 0% 13%; /* #212121 */
+    --muted-foreground: 40 7% 66%;
 
-    --accent: 46 65% 52%; /* gold */
+    --accent: 46 62% 52%; /* gold */
     --accent-foreground: 0 0% 4%;
 
     /* Primary = gold (CTAs / highlights) */
@@ -25,40 +25,34 @@
     --secondary: 156 100% 33%; /* #00A86B */
     --secondary-foreground: 0 0% 100%;
 
-    --destructive: 4 74% 49%;
+    --destructive: 4 74% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 14% 88%;
-    --input: 40 14% 86%;
+    --border: 40 8% 17%; /* elegant warm charcoal hairline */
+    --input: 0 0% 22%;
     --ring: 46 62% 52%;
 
     --radius: 0.9rem;
   }
 
+  /* .dark kept identical so the `dark` class is a harmless no-op. */
   .dark {
-    --background: 0 0% 4%; /* #0A0A0A */
-    --foreground: 48 20% 96%;
-
-    --card: 0 0% 7%; /* #111111 */
-    --card-foreground: 48 20% 96%;
-
-    --muted: 0 0% 12%;
-    --muted-foreground: 40 8% 70%;
-
+    --background: 0 0% 3.5%;
+    --foreground: 42 30% 96%;
+    --card: 0 0% 7.5%;
+    --card-foreground: 42 30% 96%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 40 7% 66%;
     --accent: 46 62% 52%;
     --accent-foreground: 0 0% 4%;
-
     --primary: 46 62% 52%;
     --primary-foreground: 0 0% 4%;
-
     --secondary: 156 100% 33%;
     --secondary-foreground: 0 0% 100%;
-
-    --destructive: 4 74% 55%;
+    --destructive: 4 74% 56%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 16%;
-    --input: 0 0% 18%;
+    --border: 40 8% 17%;
+    --input: 0 0% 22%;
     --ring: 46 62% 52%;
   }
 }
@@ -69,6 +63,7 @@
   }
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
   body {
     @apply bg-background text-foreground antialiased;
@@ -76,7 +71,8 @@
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    background: rgba(212, 175, 55, 0.28);
+    background: rgba(212, 175, 55, 0.3);
+    color: #0a0a0a;
   }
 }
 
@@ -84,20 +80,19 @@
   .section {
     @apply py-20 md:py-28;
   }
-  .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold-soft/40 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-gold-muted;
-  }
+  /* Eyebrow — gold pill that reads on any dark surface */
+  .eyebrow,
   .eyebrow-dark {
-    @apply inline-flex items-center gap-2 rounded-full border border-gold/30 bg-white/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-gold;
+    @apply inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-gold;
   }
   .text-gradient-gold {
-    background: linear-gradient(120deg, #f3e7be 0%, #d4af37 40%, #c9a227 100%);
+    background: linear-gradient(120deg, #f7edcc 0%, #d4af37 42%, #c9a227 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .text-gradient-money {
-    background: linear-gradient(120deg, #00c77f 0%, #00a86b 50%, #0d8a5c 100%);
+    background: linear-gradient(120deg, #22e08f 0%, #00c77f 48%, #0d8a5c 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -108,6 +103,15 @@
   .num-display {
     @apply font-display tracking-tight;
     font-variant-numeric: tabular-nums;
+  }
+  /* Elevated dark surface with a faint top sheen */
+  .surface {
+    @apply rounded-3xl border border-white/10 bg-white/[0.03];
+  }
+  /* Gold hairline ring for premium CTAs / featured cards */
+  .ring-gold-soft {
+    box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.25),
+      0 18px 50px -18px rgba(212, 175, 55, 0.25);
   }
 }
 
@@ -121,21 +125,23 @@
   .bg-grid {
     background-image: radial-gradient(
       circle at 1px 1px,
-      rgba(120, 113, 108, 0.10) 1px,
+      rgba(255, 255, 255, 0.05) 1px,
       transparent 0
     );
-    background-size: 28px 28px;
+    background-size: 30px 30px;
   }
   .grid-noise {
     background-image: radial-gradient(
-      rgba(212, 175, 55, 0.07) 1px,
+      rgba(212, 175, 55, 0.09) 1px,
       transparent 1px
     );
     background-size: 22px 22px;
   }
+  /* Ambient hero glow — gold + money-green auras on deep black */
   .gradient-halo {
     background:
-      radial-gradient(60% 60% at 12% 0%, rgba(0, 168, 107, 0.10) 0%, transparent 60%),
-      radial-gradient(50% 50% at 92% 8%, rgba(212, 175, 55, 0.14) 0%, transparent 55%);
+      radial-gradient(55% 55% at 12% 0%, rgba(0, 168, 107, 0.14) 0%, transparent 60%),
+      radial-gradient(50% 50% at 88% 6%, rgba(212, 175, 55, 0.16) 0%, transparent 58%),
+      radial-gradient(80% 60% at 50% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
   }
 }

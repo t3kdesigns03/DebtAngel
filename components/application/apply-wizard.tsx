@@ -118,9 +118,9 @@ export function ApplyWizard() {
       <PhaseNav step={step} maxSeen={maxSeen} onJump={goTo} />
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
-        <div className="rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-8">
+        <div className="rounded-3xl border border-white/10 bg-card p-5 shadow-lift sm:p-8">
           <header className="mb-6">
-            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-gold-muted">
+            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
               {stepMeta[step].phase} · Step {step + 1} of {TOTAL_STEPS}
             </span>
             <h1 className="mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -251,9 +251,9 @@ function PhaseNav({
     <div>
       <div className="mb-3 flex items-center justify-between">
         <Link href="/" aria-label={`${site.name} home`}>
-          <Wordmark />
+          <Wordmark size="md" />
         </Link>
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-sm font-semibold text-gold">
           {Math.round(pct)}% complete
         </span>
       </div>
@@ -275,9 +275,9 @@ function PhaseNav({
                 onClick={() => reachable && onJump(i)}
                 className={cn(
                   "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
-                  state === "current" && "border-gold bg-gold-soft/60 text-gold-muted",
-                  state === "done" && "border-money/40 bg-money-soft/50 text-money-deep",
-                  state === "todo" && "border-border bg-card text-muted-foreground",
+                  state === "current" && "border-gold bg-gold/15 text-gold",
+                  state === "done" && "border-money/40 bg-money/15 text-money",
+                  state === "todo" && "border-white/10 bg-card text-foreground/55",
                   !reachable && "cursor-not-allowed opacity-60",
                 )}
               >
@@ -522,7 +522,7 @@ function ComparisonStep({
   const comparison = buildComparison(inputs, estimate(inputs));
   return (
     <div>
-      <div className="mb-4 rounded-2xl bg-money-soft/40 px-4 py-3 text-sm text-money-deep">
+      <div className="mb-4 rounded-2xl border border-money/25 bg-money/10 px-4 py-3 text-sm text-money">
         Based on {tradelines.length} account{tradelines.length === 1 ? "" : "s"} totaling{" "}
         <strong>{currency(totalDebt)}</strong>. Here&rsquo;s your current path next to
         your Debt Angel plan.
@@ -603,20 +603,20 @@ function SubmitStep({
         className={cn(
           "rounded-2xl border p-4",
           fit.tone === "good"
-            ? "border-money/30 bg-money-soft/40"
-            : "border-gold/40 bg-gold-soft/40",
+            ? "border-money/30 bg-money/10"
+            : "border-gold/30 bg-gold/10",
         )}
       >
         <p className="flex items-center gap-2 font-semibold">
           <ShieldCheck
             className={cn(
               "h-4 w-4",
-              fit.tone === "good" ? "text-money-deep" : "text-gold-muted",
+              fit.tone === "good" ? "text-money" : "text-gold",
             )}
           />
           {fit.headline}
         </p>
-        <p className="mt-1.5 text-sm text-muted-foreground">{fit.body}</p>
+        <p className="mt-1.5 text-sm text-foreground/65">{fit.body}</p>
       </div>
 
       {/* Consent */}
@@ -634,7 +634,7 @@ function SubmitStep({
             <span className="text-sm text-muted-foreground">
               I agree to be contacted about my plan and I understand this is an
               application, not an offer or guarantee. I&rsquo;ve read the{" "}
-              <Link href="/" className="font-medium text-gold-muted hover:underline">
+              <Link href="/" className="font-medium text-gold hover:underline">
                 disclosures
               </Link>
               .
@@ -654,8 +654,8 @@ function SubmitStep({
 function ThankYou({ firstName }: { firstName?: string }) {
   return (
     <div className="mx-auto max-w-xl text-center">
-      <div className="rounded-3xl border border-border bg-card p-8 shadow-lift sm:p-12">
-        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-money-soft text-money-deep">
+      <div className="surface ring-gold-soft rounded-3xl p-8 sm:p-12">
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-money/15 text-money ring-1 ring-money/25">
           <PartyPopper className="h-8 w-8" />
         </span>
         <h1 className="mt-6 font-display text-3xl font-semibold tracking-tight">

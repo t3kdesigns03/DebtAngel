@@ -39,7 +39,7 @@ export function Estimator({ compact = false }: { compact?: boolean }) {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
       {/* Controls */}
-      <div className="rounded-3xl border border-border bg-card p-6 shadow-soft sm:p-8">
+      <div className="rounded-3xl border border-white/10 bg-card p-6 shadow-soft sm:p-8">
         <span className="eyebrow">
           <Sparkles className="h-3.5 w-3.5" /> Debt Freedom Estimator
         </span>
@@ -124,7 +124,7 @@ function Field({
     <div>
       <div className="mb-3 flex items-baseline justify-between gap-3">
         <label className="text-sm font-medium">{label}</label>
-        <span className="num-display text-lg font-bold text-gold-muted tabular">
+        <span className="num-display text-lg font-bold text-gold tabular">
           {value}
         </span>
       </div>

@@ -35,14 +35,17 @@ const STATUS_META: Record<
   Tradeline["status"],
   { label: string; cls: string }
 > = {
-  current: { label: "Current", cls: "bg-money-soft text-money-deep" },
-  "past-due": { label: "Past due", cls: "bg-gold-soft text-gold-muted" },
-  collections: { label: "Collections", cls: "bg-destructive/10 text-destructive" },
+  current: { label: "Current", cls: "bg-money/15 text-money ring-1 ring-money/25" },
+  "past-due": { label: "Past due", cls: "bg-gold/15 text-gold ring-1 ring-gold/25" },
+  collections: {
+    label: "Collections",
+    cls: "bg-destructive/15 text-destructive ring-1 ring-destructive/30",
+  },
 };
 
 const BAND_CLS = {
-  good: { bar: "bg-money-sheen", text: "text-money-deep" },
-  watch: { bar: "bg-gold-sheen", text: "text-gold-muted" },
+  good: { bar: "bg-money-sheen", text: "text-money" },
+  watch: { bar: "bg-gold-sheen", text: "text-gold" },
   high: { bar: "bg-destructive", text: "text-destructive" },
 } as const;
 
@@ -98,7 +101,7 @@ export function TradelineView({
           return (
             <div
               key={tl.id}
-              className="rounded-2xl border border-border bg-card p-4 shadow-soft transition-shadow hover:shadow-lift sm:p-5"
+              className="rounded-2xl border border-white/10 bg-card p-4 shadow-soft transition-all hover:border-gold/25 hover:shadow-lift sm:p-5"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-2.5">
@@ -165,7 +168,7 @@ export function TradelineView({
               )}
 
               {/* Footer metrics */}
-              <div className="mt-3 grid grid-cols-3 gap-2 border-t border-border pt-3 text-xs">
+              <div className="mt-3 grid grid-cols-3 gap-2 border-t border-white/10 pt-3 text-xs">
                 <Mini label="Min / mo" value={currency(tl.minPayment)} />
                 <Mini label="Interest / mo" value={currency(m.monthlyInterest)} />
                 <Mini label="Debt share" value={percent(m.balancePctOfTotal)} />
@@ -230,12 +233,12 @@ function Stat({
 }) {
   const color =
     accent === "gold"
-      ? "text-gold-muted"
+      ? "text-gold"
       : accent === "danger"
         ? "text-destructive"
         : "text-foreground";
   return (
-    <div className="rounded-2xl border border-border bg-card px-3 py-3 shadow-soft">
+    <div className="rounded-2xl border border-white/10 bg-card px-3 py-3 shadow-soft">
       <span className="block text-[11px] uppercase tracking-wide text-muted-foreground">
         {label}
       </span>

@@ -38,7 +38,7 @@ export function TradelineForm({
   const num = (v: string) => (v === "" ? 0 : Math.max(0, Number(v)));
 
   return (
-    <div className="rounded-2xl border border-gold/40 bg-gold-soft/20 p-4 sm:p-5">
+    <div className="rounded-2xl border border-gold/30 bg-gold/[0.07] p-4 sm:p-5">
       <p className="mb-4 text-sm font-semibold">
         {initial ? "Edit account" : "Add an account"}
       </p>

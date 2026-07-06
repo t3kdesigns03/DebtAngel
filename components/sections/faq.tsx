@@ -10,7 +10,7 @@ import {
 
 export function Faq() {
   return (
-    <section id="faq" className="section scroll-mt-24 bg-cloud-100">
+    <section id="faq" className="section scroll-mt-24 border-y border-white/5 bg-white/[0.02]">
       <div className="container">
         <SectionHeading
           eyebrow="Straight answers"
@@ -27,11 +27,11 @@ export function Faq() {
               </AccordionItem>
             ))}
           </Accordion>
-          <p className="mt-8 text-center text-sm text-muted-foreground">
+          <p className="mt-8 text-center text-sm text-foreground/60">
             Still have a question? Call{" "}
             <a
               href={`tel:${site.phone.replace(/[^0-9]/g, "")}`}
-              className="font-semibold text-gold-muted hover:underline"
+              className="font-semibold text-gold hover:underline"
             >
               {site.phone}
             </a>{" "}

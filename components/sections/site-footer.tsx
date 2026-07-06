@@ -9,8 +9,8 @@ export function SiteFooter() {
       <div className="container py-14">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
-            <Wordmark className="[&_span]:text-cloud" />
-            <p className="mt-4 max-w-xs text-sm text-cloud/70">
+            <Wordmark size="lg" />
+            <p className="mt-5 max-w-xs text-sm text-cloud/70">
               {site.motto}
             </p>
             <div className="mt-5 flex flex-col gap-2 text-sm">

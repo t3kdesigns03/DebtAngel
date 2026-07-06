@@ -9,8 +9,9 @@ export const metadata: Metadata = {
 
 export default function ApplyPage() {
   return (
-    <main className="min-h-screen bg-cloud bg-grid">
-      <div className="container py-8 sm:py-12">
+    <main className="relative min-h-screen bg-background bg-grid">
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80 gradient-halo" />
+      <div className="container relative z-10 py-8 sm:py-12">
         <ApplyWizard />
       </div>
     </main>

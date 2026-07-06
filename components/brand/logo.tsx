@@ -65,20 +65,29 @@ export function LogoMark({
   );
 }
 
+const SIZES = {
+  sm: { gap: "gap-2", mark: "h-8 w-8", text: "text-base" },
+  md: { gap: "gap-2.5", mark: "h-10 w-10", text: "text-xl" },
+  lg: { gap: "gap-3", mark: "h-12 w-12 sm:h-14 sm:w-14", text: "text-2xl sm:text-[1.7rem]" },
+} as const;
+
 export function Wordmark({
   className,
   markClassName,
   compact = false,
+  size = "md",
 }: {
   className?: string;
   markClassName?: string;
   compact?: boolean;
+  size?: keyof typeof SIZES;
 }) {
+  const s = SIZES[size];
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <LogoMark className={markClassName} />
+    <span className={cn("inline-flex items-center", s.gap, className)}>
+      <LogoMark className={cn(s.mark, markClassName)} />
       {!compact && (
-        <span className="font-display text-lg font-semibold tracking-tight">
+        <span className={cn("font-display font-bold tracking-tight leading-none", s.text)}>
           <span className="text-gradient-gold">Debt</span>
           <span className="text-foreground">Angel</span>
         </span>

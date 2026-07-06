@@ -24,14 +24,14 @@ const RadioCard = React.forwardRef<
   <RadioGroupPrimitive.Item
     ref={ref}
     className={cn(
-      "group relative flex items-start gap-3 rounded-xl border border-border bg-card p-4 text-left shadow-sm transition-all hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=checked]:border-gold data-[state=checked]:bg-gold-soft/50 data-[state=checked]:shadow-soft",
+      "group relative flex items-start gap-3 rounded-xl border border-border bg-card p-4 text-left shadow-sm transition-all hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=checked]:border-gold data-[state=checked]:bg-gold/10 data-[state=checked]:shadow-gold",
       className
     )}
     {...props}
   >
-    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-muted-foreground/40 transition-colors group-data-[state=checked]:border-accent group-data-[state=checked]:bg-accent">
+    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-muted-foreground/40 transition-colors group-data-[state=checked]:border-gold group-data-[state=checked]:bg-gold-sheen">
       <RadioGroupPrimitive.Indicator>
-        <Check className="h-3 w-3 text-white" strokeWidth={3} />
+        <Check className="h-3 w-3 text-ink" strokeWidth={3} />
       </RadioGroupPrimitive.Indicator>
     </span>
     <span className="flex flex-col">

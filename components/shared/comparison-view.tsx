@@ -20,7 +20,6 @@ export function ComparisonView({
   const { current, proposed, totalSavings, savingsPct, monthsSaved, monthlyRelief } =
     comparison;
 
-  // Bar widths: proposed cost as a share of the (larger) current payoff.
   const maxTotal = Math.max(current.totalPayoff, proposed.totalCost, 1);
   const currentBar = (current.totalPayoff / maxTotal) * 100;
   const proposedBar = (proposed.totalCost / maxTotal) * 100;
@@ -28,17 +27,20 @@ export function ComparisonView({
   return (
     <div className={cn("w-full", className)}>
       {/* Headline savings */}
-      <div className="rounded-3xl bg-ink-fade p-6 text-center shadow-lift sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
-          Your projected savings
-        </p>
-        <p className="num-display mt-2 text-5xl font-bold text-gradient-money sm:text-6xl">
-          {currency(totalSavings)}
-        </p>
-        <p className="mt-2 text-sm text-cloud/70">
-          {percent(savingsPct)} less than your current path — with no bankruptcy,
-          foreclosure, or repossession.
-        </p>
+      <div className="surface ring-gold-soft relative overflow-hidden p-6 text-center sm:p-8">
+        <div className="absolute inset-0 grid-noise opacity-60" aria-hidden />
+        <div className="relative">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+            Your projected savings
+          </p>
+          <p className="num-display mt-2 text-5xl font-bold text-gradient-money sm:text-6xl">
+            {currency(totalSavings)}
+          </p>
+          <p className="mt-2 text-sm text-foreground/60">
+            {percent(savingsPct)} less than your current path — with no bankruptcy,
+            foreclosure, or repossession.
+          </p>
+        </div>
       </div>
 
       {/* Highlight chips */}
@@ -83,8 +85,8 @@ export function ComparisonView({
       </div>
 
       {/* Visual bars */}
-      <div className="mt-4 rounded-3xl border border-border bg-card p-5 sm:p-6">
-        <p className="mb-4 text-sm font-medium text-muted-foreground">
+      <div className="mt-4 rounded-3xl border border-white/10 bg-card p-5 sm:p-6">
+        <p className="mb-4 text-sm font-medium text-foreground/60">
           Total dollars, side by side
         </p>
         <Bar
@@ -93,7 +95,7 @@ export function ComparisonView({
           width={currentBar}
           tone="current"
         />
-        <div className="my-3 flex items-center gap-2 pl-1 text-money-deep">
+        <div className="my-3 flex items-center gap-2 pl-1 text-money">
           <ArrowDown className="h-4 w-4" />
           <span className="text-sm font-semibold">
             You keep {currency(totalSavings)}
@@ -120,12 +122,12 @@ function Highlight({
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-soft">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-soft text-gold-muted">
+    <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-card px-4 py-3 shadow-soft">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold">
         {icon}
       </span>
       <span className="min-w-0">
-        <span className="block text-xs text-muted-foreground">{label}</span>
+        <span className="block text-xs text-foreground/55">{label}</span>
         <span className="num-display block truncate text-base font-semibold">
           {value}
         </span>
@@ -157,8 +159,8 @@ function PlanColumn({
       className={cn(
         "rounded-3xl border p-5 sm:p-6",
         proposed
-          ? "border-money/40 bg-money-soft/40 shadow-money"
-          : "border-border bg-muted/60",
+          ? "border-money/30 bg-money/10 shadow-money"
+          : "border-white/10 bg-white/[0.03]",
       )}
     >
       <div className="flex items-baseline justify-between gap-2">
@@ -167,7 +169,7 @@ function PlanColumn({
       <p
         className={cn(
           "text-xs font-semibold uppercase tracking-wide",
-          proposed ? "text-money-deep" : "text-muted-foreground",
+          proposed ? "text-money" : "text-foreground/50",
         )}
       >
         {subtitle}
@@ -193,11 +195,11 @@ function Row({
 }) {
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <dt className="text-sm text-muted-foreground">{label}</dt>
+      <dt className="text-sm text-foreground/60">{label}</dt>
       <dd
         className={cn(
           "num-display text-right text-lg font-semibold tabular",
-          strong ? "text-money-deep" : "text-foreground",
+          strong ? "text-money" : "text-foreground",
         )}
       >
         {value}
@@ -229,7 +231,7 @@ function Bar({
         <div
           className={cn(
             "h-full origin-left rounded-full animate-grow-bar",
-            tone === "proposed" ? "bg-money-sheen" : "bg-ink-700",
+            tone === "proposed" ? "bg-money-sheen" : "bg-white/25",
           )}
           style={{ width: `${Math.max(width, 6)}%` }}
         />

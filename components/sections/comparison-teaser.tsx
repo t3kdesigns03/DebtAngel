@@ -15,7 +15,7 @@ export function ComparisonTeaser() {
   const comparison = buildComparison(inputs, estimate(inputs));
 
   return (
-    <section id="comparison" className="section scroll-mt-24 bg-cloud-100">
+    <section id="comparison" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
           eyebrow="See the whole picture"
