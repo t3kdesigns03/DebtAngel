@@ -12,9 +12,9 @@ export const site = {
   motto: "See your way out of debt — a clear plan for your unsecured balances, and you approve every step.",
   mottoShort: "A clearer way through unsecured debt.",
   tagline: "A clear plan for your unsecured debt — and you approve every step.",
-  domain: "debtangel.com",
+  domain: "mydebtangel.com",
   phone: "(000) 000-0000", // TODO: placeholder — replace with the real number
-  email: "hello@debtangel.com",
+  email: "hello@mydebtangel.com",
   applyUrl: "/apply",
   loginUrl: "/login",
   dashboardUrl: "/dashboard",

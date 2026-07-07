@@ -39,7 +39,10 @@ export const metadata: Metadata = {
     description,
     type: "website",
   },
-  robots: { index: true, follow: true },
+  // PRE-LAUNCH: keep the site out of search results while content/claims are
+  // still placeholders. Reviewers with the link can still view everything —
+  // noindex only affects search engines. AT LAUNCH: set index/follow back to true.
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({
