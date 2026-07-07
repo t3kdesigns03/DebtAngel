@@ -4,14 +4,20 @@
 
   IMPORTANT: This template uses the token-hash flow that the app callback
   (app/auth/callback/route.ts) verifies via supabase.auth.verifyOtp().
-  The link points to {{ .SiteURL }}/auth/callback so Site URL MUST be set
-  correctly in Supabase → Authentication → URL Configuration.
 
-  If you prefer to preserve a dynamic ?next= target, replace
-  {{ .SiteURL }}/auth/callback?...&next=/dashboard
-  with:
-  {{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=magiclink
-  (requires the callback URL to be in the Redirect URLs allow-list).
+  It links to {{ .RedirectTo }} — the exact origin the user requested the
+  link from (the app sets this to window.location.origin/auth/callback?next=…).
+  This lets BOTH mydebtangel.com and debtangel.t3kdesigns.app work from the
+  same template. Every origin you use MUST be added to
+  Supabase → Authentication → URL Configuration → Redirect URLs, e.g.:
+    - https://mydebtangel.com/auth/callback
+    - https://debtangel.t3kdesigns.app/auth/callback
+    - http://localhost:3000/auth/callback
+  Set Site URL to your primary domain (https://mydebtangel.com) as the fallback.
+
+  {{ .RedirectTo }} already contains "?next=/dashboard", so we append the
+  token with "&". If a request ever arrives without an allow-listed
+  RedirectTo, Supabase falls back to Site URL.
 -->
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
        style="background:#0A0A0A;margin:0;padding:32px 0;font-family:'Helvetica Neue',Arial,sans-serif;">
@@ -50,7 +56,7 @@
             <table cellpadding="0" cellspacing="0" role="presentation">
               <tr>
                 <td style="border-radius:9999px;background:linear-gradient(135deg,#F3E7BE 0%,#D4AF37 45%,#C9A227 100%);">
-                  <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard"
+                  <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=magiclink"
                      style="display:inline-block;padding:14px 32px;font-size:15px;font-weight:700;color:#0A0A0A;text-decoration:none;border-radius:9999px;">
                     Sign in to MyDebtAngel &rarr;
                   </a>
@@ -67,9 +73,9 @@
               Button not working? Copy and paste this link into your browser:
             </p>
             <p style="margin:0;font-size:12px;word-break:break-all;">
-              <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard"
+              <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=magiclink"
                  style="color:#D4AF37;text-decoration:underline;">
-                {{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard
+                {{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=magiclink
               </a>
             </p>
           </td>
