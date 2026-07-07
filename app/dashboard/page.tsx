@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, ChevronRight, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { claimApplicationsByEmail } from "@/lib/actions/auth";
 import { isVerifiedUser } from "@/lib/auth/session";
@@ -99,24 +99,28 @@ export default async function DashboardPage() {
 
 function PlanCard({ plan }: { plan: ApplicationRow }) {
   const months = Math.round((plan.plan_months_low + plan.plan_months_high) / 2);
-  const comparison = plan.plan_comparison;
-  const savings = comparison?.totalSavings ?? plan.plan_savings_mid;
+  const savings = plan.plan_savings_mid;
 
   return (
-    <li className="rounded-3xl border border-white/10 bg-card p-6 shadow-soft">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold">
-            {formatStatus(plan.status)}
-          </p>
-          <p className="mt-1 font-display text-lg font-semibold">
-            {currency(plan.total_debt)} enrolled
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Submitted {formatDate(plan.created_at)}
-          </p>
+    <li>
+      <Link
+        href={`/dashboard/${plan.id}`}
+        className="group block rounded-3xl border border-white/10 bg-card p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:border-gold/30 hover:shadow-lift"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold">
+              {formatStatus(plan.status)}
+            </p>
+            <p className="mt-1 font-display text-lg font-semibold">
+              {currency(plan.total_debt)} enrolled
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Submitted {formatDate(plan.created_at)}
+            </p>
+          </div>
+          <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-gold" />
         </div>
-      </div>
 
       <dl className="mt-5 grid grid-cols-2 gap-3 text-sm">
         <div>
@@ -141,10 +145,10 @@ function PlanCard({ plan }: { plan: ApplicationRow }) {
         </div>
       </dl>
 
-      <p className="mt-4 text-xs text-muted-foreground">
-        Illustrative figures from your submission. An advisor will confirm your exact
-        plan.
-      </p>
+        <p className="mt-4 text-xs text-muted-foreground">
+          Illustrative figures from your submission. Tap to view or update.
+        </p>
+      </Link>
     </li>
   );
 }

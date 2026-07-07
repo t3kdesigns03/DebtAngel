@@ -5,11 +5,7 @@ import {
   applicationSchema,
   type ApplicationData,
 } from "@/lib/application-schema";
-import {
-  estimate,
-  buildComparison,
-  summarizePortfolio,
-} from "@/lib/estimator";
+import { computePlan, planColumns, tradelineToRow } from "@/lib/plan";
 
 export type SubmitApplicationResult =
   | { ok: true; applicationId: string }
@@ -41,24 +37,11 @@ export async function submitApplication(
   }
 
   const form = parsed.data;
-  const portfolio = summarizePortfolio(form.tradelines);
-  const totalDebt = portfolio.totalBalance;
-
-  const inputs = {
-    totalDebt,
-    currentMonthlyPayment:
-      form.currentMonthlyPayment > 0
-        ? form.currentMonthlyPayment
-        : portfolio.totalMinPayment,
-    monthlyBudget: form.monthlyBudget,
-    assumedApr:
-      portfolio.weightedApr > 0
-        ? portfolio.weightedApr / 100
-        : undefined,
-  };
-
-  const plan = estimate(inputs);
-  const comparison = buildComparison(inputs, plan);
+  const computed = computePlan(
+    form.tradelines,
+    form.currentMonthlyPayment,
+    form.monthlyBudget,
+  );
 
   const { data: application, error: insertError } = await supabase
     .from("applications")
@@ -69,32 +52,11 @@ export async function submitApplication(
       email: form.email,
       phone: form.phone,
       zip: form.zip,
-      current_monthly_payment: inputs.currentMonthlyPayment,
-      monthly_budget: form.monthlyBudget,
       employment: form.employment,
       goal: form.goal,
       credit_priority: form.creditPriority,
       timeline: form.timeline,
-      total_debt: totalDebt,
-      plan_settlement_low_pct: plan.settlementLowPct,
-      plan_settlement_high_pct: plan.settlementHighPct,
-      plan_settled_low: plan.settledLow,
-      plan_settled_high: plan.settledHigh,
-      plan_fee_low: plan.feeLow,
-      plan_fee_high: plan.feeHigh,
-      plan_cost_low: plan.programCostLow,
-      plan_cost_high: plan.programCostHigh,
-      plan_cost_mid: plan.programCostMid,
-      plan_savings_low: plan.savingsLow,
-      plan_savings_high: plan.savingsHigh,
-      plan_savings_mid: plan.savingsMid,
-      plan_months_low: plan.monthsLow,
-      plan_months_high: plan.monthsHigh,
-      plan_suggested_monthly: plan.suggestedMonthly,
-      plan_minimum_only_total: plan.minimumOnlyTotal,
-      plan_minimum_only_months: plan.minimumOnlyMonths,
-      plan_budget_fit: plan.budgetFit,
-      plan_comparison: comparison,
+      ...planColumns(computed),
     })
     .select("id")
     .single();
@@ -108,22 +70,9 @@ export async function submitApplication(
     };
   }
 
-  const tradelineRows = form.tradelines.map((tl) => ({
-    application_id: application.id,
-    user_id: user.id,
-    creditor: tl.creditor,
-    type: tl.type,
-    balance: tl.balance,
-    credit_limit: tl.limit ?? null,
-    apr: tl.apr,
-    min_payment: tl.minPayment,
-    opened: tl.opened || null,
-    status: tl.status,
-  }));
-
   const { error: tradelineError } = await supabase
     .from("application_tradelines")
-    .insert(tradelineRows);
+    .insert(form.tradelines.map((tl) => tradelineToRow(tl, application.id, user.id)));
 
   if (tradelineError) {
     // eslint-disable-next-line no-console
