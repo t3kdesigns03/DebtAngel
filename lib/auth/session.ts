@@ -1,9 +1,17 @@
-/** Build the email redirect URL for magic-link auth flows. */
+/**
+ * Build the email redirect URL for magic-link auth flows.
+ *
+ * In the browser we use window.location.origin so the magic link always points
+ * back to the exact domain the user requested it from (mydebtangel.com,
+ * debtangel.t3kdesigns.app, or localhost during dev). Server-side we fall back
+ * to the configured site URL, then the primary production domain.
+ */
 export function getEmailRedirectUrl(nextPath = "/dashboard"): string {
   const origin =
     typeof window !== "undefined"
       ? window.location.origin
-      : process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+      : (process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+        "https://mydebtangel.com");
 
   const next = encodeURIComponent(nextPath);
   return `${origin}/auth/callback?next=${next}`;
