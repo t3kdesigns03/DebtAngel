@@ -1,16 +1,16 @@
 <!--
-  Supabase Auth → Email Templates → "Magic Link"
-  Subject:  Your secure sign-in link for MyDebtAngel
+  Supabase Auth → Email Templates → "Confirm signup"
+  Subject:  Confirm your email to access your Debt Angel plan
 
-  Sent to EXISTING users who request a magic link. New users receive the
-  "Confirm signup" template instead (see confirm-signup.html) — brand both.
+  Sent to NEW users the first time they request a magic link
+  (signInWithOtp with shouldCreateUser: true). This is the email shown in the
+  screenshot — it MUST be branded too, not just the Magic Link template.
 
   Uses the token-hash flow verified by app/auth/callback/route.ts via
-  supabase.auth.verifyOtp(). Links to {{ .RedirectTo }} (the exact origin the
-  user requested from), so mydebtangel.com and debtangel.t3kdesigns.app both
-  work. Every origin's /auth/callback must be in Supabase → Authentication →
-  URL Configuration → Redirect URLs. {{ .RedirectTo }} already ends with
-  "?next=/dashboard", so we append the token with "&".
+  supabase.auth.verifyOtp() with type=signup. Links to {{ .RedirectTo }} so
+  both mydebtangel.com and debtangel.t3kdesigns.app work; each origin's
+  /auth/callback must be in Supabase → URL Configuration → Redirect URLs.
+  {{ .RedirectTo }} already ends with "?next=/dashboard", so append with "&".
 -->
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
        style="background:#0A0A0A;margin:0;padding:32px 0;font-family:'Helvetica Neue',Arial,sans-serif;">
@@ -43,11 +43,11 @@
         <tr>
           <td style="padding:8px 32px 0 32px;">
             <h1 style="margin:16px 0 8px 0;font-size:22px;line-height:1.3;color:#FAFAF7;font-weight:700;">
-              Your secure sign-in link
+              Confirm your email to see your plan
             </h1>
             <p style="margin:0 0 24px 0;font-size:15px;line-height:1.6;color:#A3A3A3;">
-              Tap the button below to securely access your Debt Angel plan and dashboard.
-              No password needed — this link signs you in automatically.
+              Welcome to Debt Angel. Confirm your email below to securely unlock your
+              personalized debt plan and dashboard — no password required.
             </p>
           </td>
         </tr>
@@ -58,9 +58,9 @@
             <table cellpadding="0" cellspacing="0" role="presentation">
               <tr>
                 <td style="border-radius:9999px;background:linear-gradient(135deg,#F3E7BE 0%,#D4AF37 45%,#C9A227 100%);">
-                  <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=magiclink"
+                  <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=signup"
                      style="display:inline-block;padding:14px 32px;font-size:15px;font-weight:700;color:#0A0A0A;text-decoration:none;border-radius:9999px;">
-                    Sign in to MyDebtAngel &rarr;
+                    Confirm &amp; view my plan &rarr;
                   </a>
                 </td>
               </tr>
@@ -75,9 +75,9 @@
               Button not working? Copy and paste this link into your browser:
             </p>
             <p style="margin:0;font-size:12px;word-break:break-all;">
-              <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=magiclink"
+              <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=signup"
                  style="color:#D4AF37;text-decoration:underline;">
-                {{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=magiclink
+                {{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=signup
               </a>
             </p>
           </td>
@@ -90,8 +90,8 @@
         <tr>
           <td style="padding:16px 32px 32px 32px;">
             <p style="margin:0 0 4px 0;font-size:12px;line-height:1.6;color:#7A7A7A;">
-              This link expires shortly and can only be used once. If you didn&rsquo;t request
-              it, you can safely ignore this email — no changes will be made to your account.
+              This link expires shortly and can only be used once. If you didn&rsquo;t
+              create a Debt Angel plan, you can safely ignore this email.
             </p>
             <p style="margin:12px 0 0 0;font-size:11px;color:#5A5A5A;">
               &copy; MyDebtAngel. Estimates shown in your plan are illustrative and not an offer or guarantee.
