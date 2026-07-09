@@ -48,7 +48,7 @@ export function HowItWorks() {
           ))}
         </div>
 
-        <p className="mx-auto mt-10 max-w-xl text-center text-sm text-foreground/50">
+        <p className="mx-auto mt-12 max-w-xl text-center text-sm leading-relaxed text-foreground/50">
           Most plans span 24–48 months. Your estimator below shows a realistic
           range for your exact situation.
         </p>

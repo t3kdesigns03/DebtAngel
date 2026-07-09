@@ -43,16 +43,16 @@ export function Assumptions({
   return (
     <aside
       className={cn(
-        "rounded-2xl border border-gold/25 bg-gold/[0.06] px-4 py-4 text-sm",
+        "rounded-2xl border border-gold/30 bg-gold/[0.07] p-5 text-sm shadow-soft sm:p-6",
         className,
       )}
       aria-label="How these numbers work and example assumptions"
     >
-      <p className="flex items-center gap-2 font-semibold text-foreground/90">
+      <p className="flex items-center gap-2.5 text-[15px] font-semibold tracking-tight text-foreground">
         <Info className="h-4 w-4 shrink-0 text-gold" aria-hidden />
         How these numbers work
       </p>
-      <ul className="mt-2 list-disc space-y-1.5 pl-5 text-[13px] leading-relaxed text-foreground/75">
+      <ul className="mt-3.5 list-disc space-y-2.5 pl-5 text-[13px] leading-relaxed text-foreground/75 marker:text-gold/60">
         <li>
           The &ldquo;current path&rdquo; assumes you continue making only minimum
           payments with no new charges.
@@ -71,7 +71,7 @@ export function Assumptions({
         </li>
       </ul>
       {showDisclaimer && (
-        <p className="mt-3 border-t border-white/10 pt-3 text-[11px] leading-relaxed text-muted-foreground">
+        <p className="mt-4 border-t border-white/10 pt-4 text-[11px] leading-relaxed text-muted-foreground">
           {disclaimers.estimator}
         </p>
       )}

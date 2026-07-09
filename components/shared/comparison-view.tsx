@@ -35,7 +35,7 @@ export function ComparisonView({
           <p className="num-display mt-2 break-words text-4xl font-bold text-gradient-money sm:text-6xl">
             {currency(totalSavings)}
           </p>
-          <p className="mt-2 text-sm text-foreground/60">
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-foreground/65">
             This shows the estimated difference between continuing minimum payments
             on your current path versus an estimated Debt Angel plan. The Debt Angel
             estimate uses typical settlement ranges and program fees. These are
@@ -44,7 +44,7 @@ export function ComparisonView({
             creditor participation. Not all accounts settle. Debt resolution may
             negatively affect your credit, and forgiven debt may be taxable.
           </p>
-          <p className="mt-3 text-xs text-foreground/45">
+          <p className="mx-auto mt-3.5 max-w-md text-xs leading-relaxed text-foreground/45">
             Resolutions, fees, timelines, and figures vary. Not an offer or
             guarantee. This is not financial, legal, or tax advice.
           </p>

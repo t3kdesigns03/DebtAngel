@@ -7,7 +7,10 @@ import { Reveal } from "@/components/reveal";
  */
 export function WhatItIs() {
   return (
-    <section id="what-it-is" className="section scroll-mt-24">
+    <section
+      id="what-it-is"
+      className="section scroll-mt-24 my-4 border-y border-white/5 bg-white/[0.015] md:my-8"
+    >
       <div className="container">
         <SectionHeading
           eyebrow="Know what you're getting"
@@ -15,13 +18,13 @@ export function WhatItIs() {
           description="Designed for qualifying unsecured debt only. Some debts, creditors, and states may not be eligible."
         />
 
-        <div className="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-2">
+        <div className="mx-auto mt-12 grid max-w-4xl items-stretch gap-5 md:grid-cols-2">
           <Reveal>
-            <div className="h-full rounded-3xl border border-money/20 bg-money/[0.06] p-6 shadow-soft sm:p-7">
+            <div className="h-full rounded-3xl border border-money/20 bg-money/[0.06] p-7 shadow-soft sm:p-8">
               <h3 className="font-display text-lg font-semibold text-money">
                 What it is
               </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-foreground/75">
+              <p className="mt-4 text-[15px] leading-relaxed text-foreground/75">
                 Debt Angel is a debt resolution program for qualifying unsecured
                 debt — such as credit cards, personal loans, and certain medical
                 bills. You stay in control and approve every settlement. There are
@@ -31,9 +34,9 @@ export function WhatItIs() {
           </Reveal>
 
           <Reveal delay={0.05}>
-            <div className="h-full rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft sm:p-7">
+            <div className="h-full rounded-3xl border border-white/10 bg-white/[0.03] p-7 shadow-soft sm:p-8">
               <h3 className="font-display text-lg font-semibold">What it is not</h3>
-              <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-foreground/75">
+              <ul className="mt-4 space-y-2.5 text-[15px] leading-relaxed text-foreground/75">
                 <li>Debt Angel is not bankruptcy.</li>
                 <li>
                   It is not a foreclosure prevention or mortgage modification
