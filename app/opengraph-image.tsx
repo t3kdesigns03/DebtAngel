@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Debt Angel — Smarter, Faster, Cheaper. Your Debt Zero.";
+export const alt = "Debt Angel — See both paths, side by side, before you decide.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 // Rendered on demand via the edge runtime — next/og needs edge on Netlify,
@@ -44,7 +44,7 @@ export default function OpengraphImage() {
             fontWeight: 600,
           }}
         >
-          Smarter, Faster, Cheaper.
+          See both paths, side by side.
         </div>
         <div
           style={{
@@ -54,7 +54,7 @@ export default function OpengraphImage() {
             fontFamily: "Helvetica, Arial, sans-serif",
           }}
         >
-          Your Debt Zero with the least amount of risk.
+          Compare your options clearly before you commit.
         </div>
       </div>
     ),

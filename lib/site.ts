@@ -57,7 +57,7 @@ export const pillars: Pillar[] = [
     key: "cheaper",
     word: "Cheaper",
     headline: "Aim to resolve for less than you owe",
-    body: "The goal is to resolve unsecured balances for less than the full amount owed, with performance-based pricing and no prepayment penalty. You see the estimated all-in cost — and your estimated savings — before you commit.",
+    body: "The goal is to resolve unsecured balances for less than the full amount owed, with performance-based pricing and no prepayment penalty. You see the estimated all-in cost — and the estimated difference versus minimum payments — before you commit.",
     icon: "PiggyBank",
   },
 ];
@@ -117,7 +117,7 @@ export const steps: Step[] = [
     title: "See your plan",
     body: "A side-by-side comparison: your current path vs. your Debt Angel plan, in real dollars.",
     detail:
-      "One screen shows your current monthly payments and total payoff next to your proposed plan — new monthly amount, total cost, time saved, and total savings. This is the moment it clicks.",
+      "One screen shows your current monthly payments and total payoff next to your proposed plan — new monthly amount, total cost, estimated timeline, and the estimated difference versus minimum payments. This is the moment it clicks.",
     icon: "BarChart3",
   },
   {
@@ -135,16 +135,16 @@ export const steps: Step[] = [
     title: "Resolve, account by account",
     body: "We negotiate each balance down — and you approve every settlement.",
     detail:
-      "As funds build, balances are resolved one by one for less than you owe. Track each win, your dollars saved, and your projected Debt Zero date in real time.",
+      "As funds build, balances are resolved one by one for less than you owe. Track each resolution, the estimated difference versus minimum payments, and your progress in real time.",
     icon: "Handshake",
   },
   {
     n: 5,
     phase: "Phase 5",
-    title: "Reach Debt Zero — and plan your next step",
-    body: "Cross the finish line, then get guidance for your fresh start.",
+    title: "Resolve your balances — and plan your next step",
+    body: "Work through your enrolled accounts, then get guidance for what comes next.",
     detail:
-      "When you reach Debt Zero, we share general educational guidance for life after resolution. Credit outcomes vary by individual and are not guaranteed.",
+      "After your enrolled accounts are resolved, we share general educational guidance for life after resolution. Credit outcomes vary by individual and are not guaranteed.",
     icon: "Trophy",
   },
 ];
@@ -169,7 +169,7 @@ export const differences: Difference[] = [
   {
     icon: "Scale",
     title: "Real numbers, side by side",
-    body: "Your current path and your Debt Angel plan in actual dollars — new monthly amount, total cost, time saved, and total savings — before you commit to anything.",
+    body: "Your current path and your Debt Angel plan in actual dollars — new monthly amount, total cost, estimated timeline, and the estimated difference versus minimum payments — before you commit to anything.",
   },
   {
     icon: "ShieldCheck",
@@ -198,40 +198,44 @@ export interface Testimonial {
   avatar?: string;
 }
 
-/** Illustrative composites — replace with real, consented client stories + results. */
+/**
+ * Example scenarios — illustrative composites, not real individual results.
+ * For education only; they do not guarantee similar outcomes. Replace with real,
+ * consented client stories only after outcomes are substantiated (FTC / TSR rules).
+ */
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Seeing every card on one screen — utilization, the interest each one bled — made it finally make sense. I could see the plan, not just hope for one.",
+      "Seeing every account on one screen — balances and the interest each one carried — made it finally make sense. I could see a plan, not just hope for one.",
     name: "Marisa T.",
     location: "Tampa, FL",
-    outcome: "$38,400 owed → resolved for $17,100",
+    outcome: "Illustrative: $38,400 in unsecured debt organized into a structured plan",
     kind: "relief",
     avatar: "/images/avatars/avatar-woman-1.jpg",
   },
   {
     quote:
-      "The comparison page sold me. Current path vs. Debt Angel, in real dollars. I was going to save years and thousands. No pressure, just the numbers.",
+      "The comparison page is what did it — my current path next to an estimated plan, in real dollars. No pressure, just the numbers, and I decided.",
     name: "Devon R.",
     location: "Columbus, OH",
-    outcome: "5 accounts to zero in 26 months",
+    outcome: "Illustrative: 5 unsecured accounts in one structured plan over about 26 months",
     kind: "relief",
     avatar: "/images/avatars/avatar-man-1.jpg",
   },
   {
     quote:
-      "I did the whole thing myself, at my own pace, on autopilot. And my credit started climbing back faster than I expected once the plan kicked in.",
+      "I did the whole thing myself, at my own pace, on autopilot. Reviewing and approving each step kept me in control the whole way.",
     name: "Alicia M.",
     location: "Mesa, AZ",
-    outcome: "628 → 704 the year after Debt Zero",
+    outcome: "Illustrative: a self-directed plan, approved step by step",
     kind: "recovery",
   },
   {
     quote:
-      "One deposit instead of eight due dates. A dashboard that showed the finish line. It turned an overwhelming mess into something I was actually running.",
+      "One deposit instead of eight due dates. A dashboard that tracked progress. It turned an overwhelming mess into something I was actually running.",
     name: "James & Priya K.",
     location: "Raleigh, NC",
-    outcome: "$61,200 mapped, on track 8 months in",
+    outcome: "Illustrative: $61,200 in unsecured balances mapped into one plan",
     kind: "relief",
   },
   {
@@ -239,15 +243,15 @@ export const testimonials: Testimonial[] = [
       "No bankruptcy, no drama, no surprise fees. Just a clear plan I approved step by step. I always knew exactly what was happening.",
     name: "Carlos V.",
     location: "Denver, CO",
-    outcome: "Reached Debt Zero, kept his car and home",
+    outcome: "Illustrative: a plan approved step by step, with no upfront fees",
     kind: "relief",
   },
   {
     quote:
-      "The recovery guidance after was the part nobody else offered. Step by step, the right moves in the right order. My score kept rising.",
+      "The educational guidance after accounts were resolved was the part nobody else offered — step by step, the right moves in the right order.",
     name: "Nia W.",
     location: "Atlanta, GA",
-    outcome: "Rebuilt past 700 after graduating",
+    outcome: "Illustrative: general educational guidance after resolution; results vary",
     kind: "recovery",
   },
 ];
@@ -268,7 +272,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What does it cost, and is there a prepayment penalty?",
-    a: "Pricing is performance-based: no upfront fees, and a fee applies only when a balance is actually resolved for you — typically 18–25% of the enrolled amount, disclosed in writing first. There is no prepayment penalty, so if you finish early you pay nothing extra. You always see the all-in cost and your total savings before you commit.",
+    a: "Pricing is performance-based: no upfront fees, and a fee applies only when a balance is actually resolved for you — typically 18–25% of the enrolled amount, disclosed in writing first. There is no prepayment penalty, so if you finish early you pay nothing extra. You always see the all-in cost and the estimated difference versus minimum payments before you commit.",
   },
   {
     q: "Can I really do this myself on autopilot?",
@@ -294,7 +298,7 @@ export const faqs: Faq[] = [
 
 export const disclaimers = {
   estimator:
-    "Estimates are illustrative and for educational purposes only. They are not an offer, a guarantee of results, or financial, legal, or tax advice. Actual resolutions, fees, timelines, and savings vary by creditor, balance, delinquency, state, and your ability to fund your account. Debt resolution may affect your credit in the short term, and forgiven debt may be taxable.",
+    "Estimates are illustrative and for educational purposes only. They are not an offer, a guarantee of results, or financial, legal, or tax advice. Actual resolutions, fees, timelines, and figures vary by creditor, balance, delinquency, state, and your ability to fund your account. Debt resolution may affect your credit in the short term, and forgiven debt may be taxable.",
   footer:
     "Debt Angel provides debt resolution and credit-recovery support services. We are not a lender, credit repair organization, credit counseling agency, or law firm, and we do not provide legal or tax advice. Programs are not available in all states. Read and understand all program documents before enrolling. Results are not guaranteed and vary by individual circumstances. The content on this site is for general information only.",
 };

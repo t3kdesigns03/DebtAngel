@@ -21,8 +21,8 @@ export function ApplySuccessScreen({ firstName, email }: ApplySuccessScreenProps
           You&rsquo;re on your way{firstName ? `, ${firstName}` : ""}.
         </h1>
         <p className="mt-3 text-muted-foreground">
-          Your plan has been saved. We&rsquo;ll reach out shortly to confirm the
-          details and finalize your path to Debt Zero — Smarter, Faster, Cheaper.
+          Your application has been received. We&rsquo;ll email you a secure link to
+          review your personalized comparison and next steps.
         </p>
         <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <ShieldCheck className="h-5 w-5 text-gold" />

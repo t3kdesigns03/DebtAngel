@@ -1,8 +1,8 @@
 /**
  * Debt Angel — Debt Freedom Estimator.
  *
- * Smarter, Faster, Cheaper. These are transparent, deliberately conservative
- * illustrations for education only — not an offer, guarantee, or advice. Real
+ * A side-by-side comparison you control. These are transparent, deliberately
+ * conservative illustrations for education only — not an offer, guarantee, or advice. Real
  * outcomes vary by creditor, balance, delinquency, state law, and a client's
  * ability to fund a dedicated resolution account. Every assumption below is
  * surfaced to the client in the UI so nothing is hidden.
