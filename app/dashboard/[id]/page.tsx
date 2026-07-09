@@ -93,7 +93,7 @@ export default async function PlanDetailPage({ params }: PageProps) {
         <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Est. all-in cost" value={currency(Number(app.plan_cost_mid))} />
           <Stat
-            label="Est. savings"
+            label="Est. difference vs. minimums"
             value={currency(Number(app.plan_savings_mid))}
             money
           />

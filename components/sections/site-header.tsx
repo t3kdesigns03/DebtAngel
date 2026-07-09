@@ -85,7 +85,7 @@ export function SiteHeader() {
         {logoImg()}
 
         <nav className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((item) => (
+          {site.nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}

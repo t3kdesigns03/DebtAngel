@@ -74,7 +74,7 @@ export function StepReview() {
               </p>
             </div>
             <div>
-              <p className="text-slate-400">Est. savings</p>
+              <p className="text-slate-400">Est. difference vs. minimums</p>
               <p className="text-lg font-semibold text-gold">
                 {formatCurrency(est.savingsLow)}+
               </p>

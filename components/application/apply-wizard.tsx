@@ -793,8 +793,12 @@ function SubmitStep({
             <span className="text-sm text-muted-foreground">
               I agree to be contacted about my plan and I understand this is an
               application, not an offer or guarantee. I&rsquo;ve read the{" "}
-              <Link href="/" className="font-medium text-gold hover:underline">
-                disclosures
+              <Link href="/terms" className="font-medium text-gold hover:underline">
+                Terms
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="font-medium text-gold hover:underline">
+                Privacy Policy
               </Link>
               .
             </span>

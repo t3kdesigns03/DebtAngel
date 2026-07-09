@@ -32,7 +32,7 @@ export function ComparisonView({
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
             Estimated difference versus minimum payments · illustrative
           </p>
-          <p className="num-display mt-2 text-5xl font-bold text-gradient-money sm:text-6xl">
+          <p className="num-display mt-2 break-words text-4xl font-bold text-gradient-money sm:text-6xl">
             {currency(totalSavings)}
           </p>
           <p className="mt-2 text-sm text-foreground/60">

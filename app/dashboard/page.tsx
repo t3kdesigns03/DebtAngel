@@ -14,7 +14,8 @@ import { currency, monthsToLabel } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Your plans",
-  description: "Track your Debt Angel plans and projected savings.",
+  description:
+    "Track your Debt Angel plans and your estimated difference versus minimum payments.",
 };
 
 type ApplicationRow = {
@@ -128,7 +129,7 @@ function PlanCard({ plan }: { plan: ApplicationRow }) {
           <dd className="num-display font-semibold tabular">{currency(plan.plan_cost_mid)}</dd>
         </div>
         <div>
-          <dt className="text-muted-foreground">Projected savings</dt>
+          <dt className="text-muted-foreground">Est. difference vs. minimums</dt>
           <dd className="num-display font-semibold tabular text-money">
             {currency(savings)}
           </dd>

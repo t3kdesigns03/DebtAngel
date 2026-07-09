@@ -117,12 +117,12 @@ export function PayoffTimeline({
           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-money" aria-hidden />
           <div className="text-sm">
             <p className="font-semibold text-money">
-              {formatDuration(comparison.monthsSaved)} faster to debt-free
+              {formatDuration(comparison.monthsSaved)} sooner than minimum payments
+              only
             </p>
             <p className="mt-0.5 text-money/80">
-              Estimated cumulative savings of{" "}
-              <strong>{currency(comparison.totalSavings)}</strong> (
-              {Math.round(comparison.savingsPct * 100)}% of enrolled debt)
+              Estimated difference versus minimum payments of{" "}
+              <strong>{currency(comparison.totalSavings)}</strong> (illustrative)
             </p>
           </div>
         </div>
