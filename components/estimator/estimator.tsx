@@ -45,7 +45,7 @@ export function Estimator({ compact = false }: { compact?: boolean }) {
           <Sparkles className="h-3.5 w-3.5" /> Debt Freedom Estimator
         </span>
         <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight">
-          See your path to Debt Zero
+          See your current path vs. an estimated plan
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">
           Move the sliders. Watch your plan update live.

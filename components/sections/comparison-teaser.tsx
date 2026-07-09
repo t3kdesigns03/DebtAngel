@@ -24,7 +24,7 @@ export function ComparisonTeaser() {
         <SectionHeading
           eyebrow="See the whole picture"
           title="The moment it clicks"
-          description="An honest, side-by-side comparison of your current path versus an estimated Debt Angel plan — monthly amount, estimated all-in cost, and estimated savings. Illustrative only; your real plan is built from your actual accounts."
+          description="An honest, side-by-side comparison of your current path versus an estimated Debt Angel plan — monthly amount, estimated all-in cost, and the estimated difference versus minimum payments. Illustrative only; your real plan is built from your actual accounts."
         />
 
         <div className="mx-auto mt-12 max-w-3xl">

@@ -13,8 +13,8 @@ export function ClosingCta() {
           <div className="relative flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-left">
             <div>
               <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Ready to reach{" "}
-                <span className="text-gradient-gold">Debt Zero</span>?
+                Ready to compare{" "}
+                <span className="text-gradient-gold">your options</span>?
               </h2>
               <p className="mt-2 text-sm text-foreground/65 sm:text-base">
                 Build a clear plan for your unsecured debt. Start free, no

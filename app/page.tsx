@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/sections/site-header";
 import { Hero } from "@/components/sections/hero";
 import { TrustBar } from "@/components/sections/trust-bar";
+import { WhatItIs } from "@/components/sections/what-it-is";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Difference } from "@/components/sections/difference";
 import { EstimatorSection } from "@/components/sections/estimator-section";
@@ -18,6 +19,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <TrustBar />
+        <WhatItIs />
         <HowItWorks />
         {/* Striking emblem CTA elevated near the top of the page */}
         <FinalCta />

@@ -19,9 +19,9 @@ export function Testimonials() {
     <section id="testimonials" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="Real momentum"
-          title="Debt Zero, on their own terms"
-          description="Illustrative client composites showing the kinds of outcomes a structured, responsible plan can create."
+          eyebrow="Illustrative examples"
+          title="Example scenarios"
+          description="These are illustrative examples based on composite client experiences. Individual results vary based on your specific debts, creditors, ability to fund a plan, and other factors."
         />
 
         <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
