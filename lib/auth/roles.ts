@@ -36,6 +36,28 @@ export async function getSessionWithRole(): Promise<SessionWithRole> {
   return { supabase, user, role: (data?.role as Role) ?? "client" };
 }
 
+export type StaffMember = {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+};
+
+/**
+ * List all staff (employee + admin) for assignment dropdowns.
+ * Backed by the security-definer `list_staff()` RPC, which joins emails from
+ * auth.users and only returns rows to staff callers.
+ */
+export async function getStaffMembers(): Promise<StaffMember[]> {
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("list_staff");
+  return (data as StaffMember[] | null) ?? [];
+}
+
+/** Human label for a staff member — name, then email, then a fallback. */
+export function staffLabel(member: StaffMember): string {
+  return member.full_name?.trim() || member.email || "Staff member";
+}
+
 type StaffSession = {
   supabase: SupabaseClient;
   user: User;

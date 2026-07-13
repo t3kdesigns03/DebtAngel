@@ -10,10 +10,10 @@ import {
   Clock,
   StickyNote,
 } from "lucide-react";
-import { requireStaff } from "@/lib/auth/roles";
+import { requireStaff, getStaffMembers, staffLabel } from "@/lib/auth/roles";
 import { rowToTradeline } from "@/lib/plan";
 import { StatusSelect } from "@/components/admin/status-select";
-import { AssignButton } from "@/components/admin/assign-button";
+import { AssigneeSelect } from "@/components/admin/assignee-select";
 import { NoteComposer } from "@/components/admin/note-composer";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { StatusStepper } from "@/components/admin/status-stepper";
@@ -51,7 +51,7 @@ export default async function AdminApplicationDetailPage({ params }: PageProps) 
 
   if (!app) notFound();
 
-  const [{ data: tradelineRows }, { data: noteRows }] = await Promise.all([
+  const [{ data: tradelineRows }, { data: noteRows }, staff] = await Promise.all([
     supabase
       .from("application_tradelines")
       .select("*")
@@ -62,6 +62,7 @@ export default async function AdminApplicationDetailPage({ params }: PageProps) 
       .select("id, body, created_at, author_id")
       .eq("application_id", id)
       .order("created_at", { ascending: false }),
+    getStaffMembers(),
   ]);
 
   const tradelines = (tradelineRows ?? []).map(rowToTradeline);
@@ -95,6 +96,10 @@ export default async function AdminApplicationDetailPage({ params }: PageProps) 
     (Number(app.plan_months_low) + Number(app.plan_months_high)) / 2,
   );
   const assignedToMe = app.assigned_to === user.id;
+  const assignee = app.assigned_to
+    ? staff.find((s) => s.id === app.assigned_to) ?? null
+    : null;
+  const assigneeName = assignee ? staffLabel(assignee) : null;
   const name =
     `${app.first_name ?? ""} ${app.last_name ?? ""}`.trim() || app.email;
 
@@ -176,9 +181,11 @@ export default async function AdminApplicationDetailPage({ params }: PageProps) 
               <span>
                 {assignedToMe
                   ? "Assigned to you"
-                  : app.assigned_to
-                    ? "Assigned"
-                    : "Unassigned"}
+                  : assigneeName
+                    ? `Assigned to ${assigneeName}`
+                    : app.assigned_to
+                      ? "Assigned"
+                      : "Unassigned"}
               </span>
             </div>
           </div>
@@ -186,10 +193,10 @@ export default async function AdminApplicationDetailPage({ params }: PageProps) 
           {/* Quick actions */}
           <div className="flex shrink-0 flex-wrap items-center gap-2 lg:flex-col lg:items-end">
             <StatusSelect applicationId={app.id} status={status} />
-            <AssignButton
+            <AssigneeSelect
               applicationId={app.id}
-              assignedToMe={assignedToMe}
-              userId={user.id}
+              assignedTo={app.assigned_to ?? null}
+              staff={staff}
             />
           </div>
         </div>

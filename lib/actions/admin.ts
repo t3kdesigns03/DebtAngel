@@ -81,11 +81,11 @@ export async function addApplicationNote(
 
 const assignSchema = z.object({
   applicationId: z.string().uuid(),
-  /** null unassigns; otherwise must equal the caller (self-assign in Phase 1). */
+  /** null unassigns; otherwise must be a staff (employee/admin) user id. */
   assigneeId: z.string().uuid().nullable(),
 });
 
-/** Assign (or unassign) an application. Phase 1: self-assign / clear only. */
+/** Assign an application to any staff member, or unassign it. Staff only. */
 export async function assignApplication(
   input: z.infer<typeof assignSchema>,
 ): Promise<ActionResult> {
@@ -95,21 +95,31 @@ export async function assignApplication(
   const { supabase, user, role } = await getSessionWithRole();
   if (!user || !isStaffRole(role)) return { ok: false, error: NOT_STAFF };
 
-  // Phase 1 keeps this simple: a staffer can claim a lead or clear it.
-  const assignee =
-    parsed.data.assigneeId === null ? null : user.id;
+  const { applicationId, assigneeId } = parsed.data;
+
+  // If assigning to someone, confirm they're actually staff.
+  if (assigneeId !== null) {
+    const { data: assignee } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", assigneeId)
+      .single();
+    if (!assignee || (assignee.role !== "employee" && assignee.role !== "admin")) {
+      return { ok: false, error: "You can only assign to a staff member." };
+    }
+  }
 
   const { error } = await supabase
     .from("applications")
-    .update({ assigned_to: assignee })
-    .eq("id", parsed.data.applicationId);
+    .update({ assigned_to: assigneeId })
+    .eq("id", applicationId);
 
   if (error) {
     console.error("assignApplication failed:", error);
     return { ok: false, error: GENERIC };
   }
 
-  revalidatePath(`/admin/applications/${parsed.data.applicationId}`);
+  revalidatePath(`/admin/applications/${applicationId}`);
   revalidatePath("/admin/applications");
   return { ok: true };
 }
