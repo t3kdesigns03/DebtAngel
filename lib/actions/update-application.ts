@@ -84,13 +84,14 @@ export async function updateApplication(
     expensesTotal,
   );
 
+  // Note: a client editing their own plan recomputes the numbers but must NOT
+  // move the internal pipeline status (owned by staff in the admin portal).
   const { error: updateError } = await supabase
     .from("applications")
     .update({
       ...incomeColumns(income),
       ...expensesColumns(essentialExpenses),
       ...planColumns(computed),
-      status: "reviewing",
     })
     .eq("id", applicationId)
     .eq("user_id", user.id);

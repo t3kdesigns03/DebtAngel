@@ -4,6 +4,7 @@ import { isVerifiedUser } from "@/lib/auth/session";
 
 const APPLY_PREFIX = "/apply";
 const DASHBOARD_PREFIX = "/dashboard";
+const ADMIN_PREFIX = "/admin";
 const LOGIN_PREFIX = "/login";
 
 export async function middleware(request: NextRequest) {
@@ -23,8 +24,13 @@ export async function middleware(request: NextRequest) {
 
   const { response, user } = await updateSession(request);
 
-  // Dashboard requires a verified (non-anonymous) session.
-  if (pathname.startsWith(DASHBOARD_PREFIX)) {
+  // Dashboard + admin both require a verified (non-anonymous) session.
+  // Admin additionally requires a staff role — enforced in the /admin layout,
+  // which can query the profiles table (middleware stays auth-only).
+  if (
+    pathname.startsWith(DASHBOARD_PREFIX) ||
+    pathname.startsWith(ADMIN_PREFIX)
+  ) {
     if (!isVerifiedUser(user)) {
       const url = request.nextUrl.clone();
       url.pathname = LOGIN_PREFIX;

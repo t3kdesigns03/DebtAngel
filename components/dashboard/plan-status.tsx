@@ -4,34 +4,44 @@ import { cn } from "@/lib/utils";
 const STEPS = [
   { key: "submitted", label: "Submitted", icon: FileText },
   { key: "reviewing", label: "In review", icon: Clock },
-  { key: "accepted", label: "Decision", icon: Check },
+  { key: "enrolled", label: "Enrolled", icon: Check },
 ] as const;
 
+// Map the internal pipeline status onto the client-facing 3-step journey.
 const ORDER: Record<string, number> = {
-  submitted: 0,
-  reviewing: 1,
-  accepted: 2,
+  new: 0,
+  contacted: 1,
+  qualified: 1,
+  enrolled: 2,
+  active: 2,
+  completed: 2,
 };
 
+const CLOSED = new Set(["cancelled", "nurture"]);
+const FINAL = new Set(["enrolled", "active", "completed"]);
+
 export function PlanStatus({ status }: { status: string }) {
-  if (status === "declined" || status === "withdrawn") {
+  if (CLOSED.has(status)) {
     return (
       <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-card px-4 py-3 text-sm">
         <XCircle className="h-4 w-4 text-muted-foreground" />
         <span className="capitalize text-muted-foreground">
-          {status} — reach out if you&rsquo;d like to revisit your options.
+          {status === "nurture"
+            ? "On hold — reach out whenever you'd like to revisit your options."
+            : "Closed — reach out if you'd like to revisit your options."}
         </span>
       </div>
     );
   }
 
   const activeIndex = ORDER[status] ?? 0;
+  const isFinal = FINAL.has(status);
 
   return (
     <ol className="flex items-center gap-2">
       {STEPS.map((step, i) => {
-        const done = i < activeIndex || (status === "accepted" && i <= activeIndex);
-        const current = i === activeIndex && status !== "accepted";
+        const done = i < activeIndex || (isFinal && i <= activeIndex);
+        const current = i === activeIndex && !isFinal;
         const StepIcon = done ? Check : step.icon;
         return (
           <li key={step.key} className="flex flex-1 items-center gap-2">
