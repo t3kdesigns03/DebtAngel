@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { isVerifiedUser } from "@/lib/auth/session";
 import { rowToTradeline } from "@/lib/plan";
+import { rowToIncome } from "@/lib/income";
 import { EditAccounts } from "@/components/dashboard/edit-accounts";
 import { Wordmark } from "@/components/brand/logo";
 
@@ -30,7 +31,9 @@ export default async function EditPlanPage({ params }: PageProps) {
 
   const { data: app } = await supabase
     .from("applications")
-    .select("id, current_monthly_payment, monthly_budget, total_debt")
+    .select(
+      "id, current_monthly_payment, monthly_budget, total_debt, income_precision, income_amount, income_range_id, income_frequency, income_type, income_includes_household, income_source",
+    )
     .eq("id", id)
     .single();
 
@@ -75,6 +78,7 @@ export default async function EditPlanPage({ params }: PageProps) {
             initialTradelines={tradelines}
             initialCurrentMonthlyPayment={Number(app.current_monthly_payment) || 0}
             initialMonthlyBudget={Number(app.monthly_budget) || 0}
+            initialIncome={rowToIncome(app)}
           />
         </div>
       </div>

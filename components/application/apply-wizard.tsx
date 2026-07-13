@@ -22,6 +22,7 @@ import { Wordmark } from "@/components/brand/logo";
 import { TradelineView } from "@/components/shared/tradeline-view";
 import { ComparisonView } from "@/components/shared/comparison-view";
 import { CashFlowSummary } from "@/components/financial/CashFlowSummary";
+import { IncomeCapture } from "@/components/financial/IncomeCapture";
 import { PlanProgressPanel } from "@/components/financial/PlanProgressPanel";
 import { TradelineForm, AddAccountButton } from "@/components/application/tradeline-form";
 import { ApplySuccessScreen } from "@/components/auth/apply-success-screen";
@@ -43,7 +44,9 @@ import {
   sampleTradelines,
   assessFit,
   type ApplicationData,
+  type IncomeInput,
 } from "@/lib/application-schema";
+import { monthlyNetIncome } from "@/lib/income";
 import { estimate, buildComparison, type Tradeline } from "@/lib/estimator";
 import { submitApplication } from "@/lib/actions/submit-application";
 import { ensureApplySession } from "@/lib/auth/bootstrap";
@@ -281,6 +284,7 @@ export function ApplyWizard({ prefill }: { prefill?: ApplyPrefill }) {
                   tradelines={tradelines}
                   currentMonthlyPayment={Number(watch("currentMonthlyPayment")) || 0}
                   monthlyBudget={Number(watch("monthlyBudget")) || 0}
+                  income={watch("income")}
                 />
               )}
 
@@ -557,6 +561,7 @@ function MonthlyStep({
   tradelines,
   currentMonthlyPayment,
   monthlyBudget,
+  income,
 }: {
   register: any;
   control: any;
@@ -564,14 +569,32 @@ function MonthlyStep({
   tradelines: Tradeline[];
   currentMonthlyPayment: number;
   monthlyBudget: number;
+  income?: IncomeInput;
 }) {
   const minSum = tradelines.reduce((a, t) => a + (t.minPayment || 0), 0);
   const debtPayment = currentMonthlyPayment || minSum;
   const budget = monthlyBudget || Math.max(minSum * 0.7, 150);
   const showFlow = tradelines.length > 0 && (debtPayment > 0 || budget > 0);
+  const netIncome = monthlyNetIncome(income);
 
   return (
     <div className="space-y-6">
+      <div>
+        <Label>Your income helps us right-size the plan</Label>
+        <Controller
+          control={control}
+          name="income"
+          render={({ field }) => (
+            <IncomeCapture
+              className="mt-2"
+              value={field.value as IncomeInput}
+              onChange={field.onChange}
+              error={(errors.income as any)?.amount?.message ?? (errors.income as any)?.rangeId?.message}
+            />
+          )}
+        />
+      </div>
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field
           label="Current total monthly payments ($)"
@@ -628,6 +651,7 @@ function MonthlyStep({
           <CashFlowSummary
             currentMonthlyPayment={debtPayment}
             monthlyBudget={budget}
+            monthlyNetIncome={netIncome}
           />
         </div>
       )}

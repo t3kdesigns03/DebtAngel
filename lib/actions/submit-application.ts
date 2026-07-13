@@ -6,6 +6,7 @@ import {
   type ApplicationData,
 } from "@/lib/application-schema";
 import { computePlan, planColumns, tradelineToRow } from "@/lib/plan";
+import { monthlyNetIncome, incomeColumns } from "@/lib/income";
 
 export type SubmitApplicationResult =
   | { ok: true; applicationId: string }
@@ -37,10 +38,12 @@ export async function submitApplication(
   }
 
   const form = parsed.data;
+  const netIncome = monthlyNetIncome(form.income);
   const computed = computePlan(
     form.tradelines,
     form.currentMonthlyPayment,
     form.monthlyBudget,
+    netIncome,
   );
 
   const { data: application, error: insertError } = await supabase
@@ -56,6 +59,7 @@ export async function submitApplication(
       goal: form.goal,
       credit_priority: form.creditPriority,
       timeline: form.timeline,
+      ...incomeColumns(form.income),
       ...planColumns(computed),
     })
     .select("id")

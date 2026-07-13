@@ -69,6 +69,24 @@ export const creditPriorityOptions = [
   },
 ] as const;
 
+export const incomeFrequencyOptions = [
+  { value: "weekly", label: "Weekly", perMonth: 52 / 12 },
+  { value: "biweekly", label: "Every 2 weeks", perMonth: 26 / 12 },
+  { value: "semimonthly", label: "Twice a month", perMonth: 2 },
+  { value: "monthly", label: "Monthly", perMonth: 1 },
+  { value: "annual", label: "Yearly", perMonth: 1 / 12 },
+] as const;
+
+export const incomeRangeOptions = [
+  { value: "lt_2000", label: "Under $2,000", mid: 1500 },
+  { value: "2000_3000", label: "$2,000–$3,000", mid: 2500 },
+  { value: "3000_4000", label: "$3,000–$4,000", mid: 3500 },
+  { value: "4000_5000", label: "$4,000–$5,000", mid: 4500 },
+  { value: "5000_7000", label: "$5,000–$7,000", mid: 6000 },
+  { value: "7000_10000", label: "$7,000–$10,000", mid: 8500 },
+  { value: "gte_10000", label: "$10,000+", mid: 12000 },
+] as const;
+
 const values = <T extends readonly { value: string }[]>(opts: T) =>
   opts.map((o) => o.value) as [string, ...string[]];
 
@@ -94,6 +112,37 @@ export const tradelineSchema = z.object({
   status: z.enum(values(tradelineStatusOptions)),
 });
 
+/**
+ * Self-reported income. Optional everywhere so it never blocks submit — a user
+ * may give an exact amount, a range, or decline. `source` is future-proofed for
+ * a later verified income source (payroll/bank link); credit reports never
+ * carry income, so this stays independent of the CRS pull.
+ */
+export const incomeSchema = z
+  .object({
+    precision: z.enum(["exact", "range", "declined"]).default("exact"),
+    amount: z
+      .number({ invalid_type_error: "Enter an approximate amount" })
+      .min(0)
+      .max(1_000_000)
+      .optional(),
+    rangeId: z.enum(values(incomeRangeOptions)).optional(),
+    frequency: z.enum(values(incomeFrequencyOptions)).default("monthly"),
+    type: z.enum(["net", "gross"]).default("net"),
+    includesHousehold: z.boolean().default(false),
+    source: z.enum(["self_reported", "verified"]).default("self_reported"),
+  })
+  .refine((v) => v.precision !== "exact" || typeof v.amount === "number", {
+    message: "Enter an amount or choose a range",
+    path: ["amount"],
+  })
+  .refine((v) => v.precision !== "range" || !!v.rangeId, {
+    message: "Pick a range to continue",
+    path: ["rangeId"],
+  });
+
+export type IncomeInput = z.infer<typeof incomeSchema>;
+
 export const applicationSchema = z.object({
   // Phase 1 — contact
   firstName: z.string().min(1, "Please enter your first name"),
@@ -118,6 +167,8 @@ export const applicationSchema = z.object({
   employment: z.enum(values(employmentOptions), {
     errorMap: () => ({ message: "Select one" }),
   }),
+  // Optional — improves DTI + affordability. Never gates progression.
+  income: incomeSchema.optional(),
 
   // Phase 6 — goals + qualification + consent
   goal: z.enum(values(goalOptions), {
@@ -153,6 +204,13 @@ export const defaultValues: Partial<ApplicationData> = {
   currentMonthlyPayment: undefined,
   monthlyBudget: undefined,
   employment: undefined,
+  income: {
+    precision: "exact",
+    frequency: "monthly",
+    type: "net",
+    includesHousehold: false,
+    source: "self_reported",
+  },
   goal: undefined,
   creditPriority: undefined,
   timeline: undefined,

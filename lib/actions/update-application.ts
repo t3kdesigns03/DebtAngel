@@ -3,8 +3,9 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { tradelineSchema } from "@/lib/application-schema";
+import { tradelineSchema, incomeSchema } from "@/lib/application-schema";
 import { computePlan, planColumns, tradelineToRow } from "@/lib/plan";
+import { monthlyNetIncome, incomeColumns } from "@/lib/income";
 import { isAnonymousUser } from "@/lib/auth/session";
 
 const updateSchema = z.object({
@@ -12,6 +13,7 @@ const updateSchema = z.object({
   tradelines: z.array(tradelineSchema).min(1, "Add at least one account"),
   currentMonthlyPayment: z.number().min(0),
   monthlyBudget: z.number().min(0),
+  income: incomeSchema.optional(),
 });
 
 export type UpdateApplicationInput = z.infer<typeof updateSchema>;
@@ -45,7 +47,7 @@ export async function updateApplication(
     };
   }
 
-  const { applicationId, tradelines, currentMonthlyPayment, monthlyBudget } =
+  const { applicationId, tradelines, currentMonthlyPayment, monthlyBudget, income } =
     parsed.data;
 
   // Confirm ownership before mutating (RLS also enforces this).
@@ -60,11 +62,21 @@ export async function updateApplication(
     return { ok: false, error: "We couldn't find that plan on your account." };
   }
 
-  const computed = computePlan(tradelines, currentMonthlyPayment, monthlyBudget);
+  const netIncome = monthlyNetIncome(income);
+  const computed = computePlan(
+    tradelines,
+    currentMonthlyPayment,
+    monthlyBudget,
+    netIncome,
+  );
 
   const { error: updateError } = await supabase
     .from("applications")
-    .update({ ...planColumns(computed), status: "reviewing" })
+    .update({
+      ...incomeColumns(income),
+      ...planColumns(computed),
+      status: "reviewing",
+    })
     .eq("id", applicationId)
     .eq("user_id", user.id);
 

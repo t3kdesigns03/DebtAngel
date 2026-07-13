@@ -9,6 +9,8 @@ type CashFlowSummaryProps = {
   currentMonthlyPayment: number;
   monthlyBudget: number;
   planSuggestedMonthly?: number;
+  /** Real monthly net income when the user shared it; null/undefined → estimate. */
+  monthlyNetIncome?: number | null;
   className?: string;
 };
 
@@ -16,13 +18,16 @@ export function CashFlowSummary({
   currentMonthlyPayment,
   monthlyBudget,
   planSuggestedMonthly,
+  monthlyNetIncome,
   className,
 }: CashFlowSummaryProps) {
   const flow = buildCashFlowSnapshot({
     currentMonthlyPayment,
     monthlyBudget,
     planSuggestedMonthly,
+    monthlyNetIncome,
   });
+  const incomeFromUser = flow.incomeSource === "user";
 
   const income = flow.estimatedMonthlyIncome || 1;
   const deductions = [
@@ -62,7 +67,9 @@ export function CashFlowSummary({
           Monthly cash flow
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          Illustrative breakdown from your inputs — not verified income.
+          {incomeFromUser
+            ? "Based on the income you shared. Costs below are illustrative estimates."
+            : "Illustrative breakdown from your inputs — not verified income."}
         </p>
       </div>
 
@@ -75,8 +82,12 @@ export function CashFlowSummary({
               <Wallet className="h-[18px] w-[18px]" aria-hidden />
             </span>
             <div>
-              <p className="text-sm font-semibold text-gold">Est. monthly income</p>
-              <p className="text-[11px] text-muted-foreground">Starting point</p>
+              <p className="text-sm font-semibold text-gold">
+                {incomeFromUser ? "Monthly income" : "Est. monthly income"}
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                {incomeFromUser ? "From you · not an estimate" : "Starting point"}
+              </p>
             </div>
           </div>
           <p className="num-display text-xl font-bold tabular text-gold sm:text-2xl">

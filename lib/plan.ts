@@ -6,6 +6,7 @@ import {
   type Comparison,
   type EstimatorResult,
 } from "@/lib/estimator";
+import { buildCashFlowSnapshot, type CashFlowSnapshot } from "@/lib/cash-flow";
 
 export type ComputedPlan = {
   totalDebt: number;
@@ -13,6 +14,11 @@ export type ComputedPlan = {
   monthlyBudget: number;
   plan: EstimatorResult;
   comparison: Comparison;
+  /** Present when the user shared income; null → estimate was used. */
+  monthlyNetIncome: number | null;
+  cashFlow: CashFlowSnapshot;
+  /** Recommended deposit, never above real disposable income when income known. */
+  affordableDeposit: number;
 };
 
 /**
@@ -24,6 +30,7 @@ export function computePlan(
   tradelines: Tradeline[],
   currentMonthlyPayment: number,
   monthlyBudget: number,
+  monthlyNetIncome?: number | null,
 ): ComputedPlan {
   const portfolio = summarizePortfolio(tradelines);
   const totalDebt = portfolio.totalBalance;
@@ -41,7 +48,31 @@ export function computePlan(
   const plan = estimate(inputs);
   const comparison = buildComparison(inputs, plan);
 
-  return { totalDebt, resolvedCurrentMonthly, monthlyBudget, plan, comparison };
+  const income = monthlyNetIncome ?? null;
+  const cashFlow = buildCashFlowSnapshot({
+    currentMonthlyPayment: resolvedCurrentMonthly,
+    monthlyBudget,
+    planSuggestedMonthly: plan.suggestedMonthly,
+    monthlyNetIncome: income,
+  });
+
+  // Affordability guardrail: never recommend a deposit above real disposable
+  // income when the user shared income. Falls back to the raw suggestion otherwise.
+  const affordableDeposit =
+    income != null
+      ? Math.min(plan.suggestedMonthly, Math.max(150, cashFlow.disposableIncome))
+      : plan.suggestedMonthly;
+
+  return {
+    totalDebt,
+    resolvedCurrentMonthly,
+    monthlyBudget,
+    plan,
+    comparison,
+    monthlyNetIncome: income,
+    cashFlow,
+    affordableDeposit,
+  };
 }
 
 /** Map a ComputedPlan to the `applications` table's plan_* columns. */

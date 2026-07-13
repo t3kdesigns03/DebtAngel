@@ -54,6 +54,13 @@ export default async function PlanDetailPage({ params }: PageProps) {
     (Number(app.plan_months_low) + Number(app.plan_months_high)) / 2,
   );
 
+  const incomeMonthlyNet =
+    app.income_monthly_net != null ? Number(app.income_monthly_net) : null;
+  const incomeShared =
+    app.income_precision !== "declined" &&
+    incomeMonthlyNet != null &&
+    incomeMonthlyNet > 0;
+
   return (
     <main className="relative min-h-screen bg-background bg-grid">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-64 gradient-halo" />
@@ -120,6 +127,36 @@ export default async function PlanDetailPage({ params }: PageProps) {
             />
           </div>
         )}
+
+        {/* Monthly picture */}
+        <div className="mt-8">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="font-display text-xl font-semibold">Your monthly picture</h2>
+            <Link
+              href={`/dashboard/${id}/edit#monthly-picture`}
+              className="text-sm font-medium text-gold hover:underline"
+            >
+              Edit
+            </Link>
+          </div>
+          <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-card px-4 py-3.5 shadow-soft">
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground">Monthly take-home income</p>
+              <p className="num-display mt-0.5 text-lg font-semibold tabular">
+                {incomeShared ? currency(incomeMonthlyNet!) : "Not provided"}
+              </p>
+            </div>
+            <span
+              className={
+                incomeShared
+                  ? "shrink-0 rounded-full border border-money/30 bg-money/10 px-2.5 py-1 text-[11px] font-medium text-money"
+                  : "shrink-0 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+              }
+            >
+              {incomeShared ? "From you" : "Using estimate"}
+            </span>
+          </div>
+        </div>
 
         {/* Accounts */}
         <div className="mt-8">
